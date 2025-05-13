@@ -5,6 +5,29 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Roger Sombrio</title>
   <style>
+    <style>
+#aviso-musica {
+  position: fixed;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #111;
+  color: #fff;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+  z-index: 9999;
+  opacity: 0.95;
+  animation: fadeOut 8s forwards;
+}
+
+@keyframes fadeOut {
+  0% { opacity: 0.95; }
+  80% { opacity: 0.95; }
+  100% { opacity: 0; display: none; }
+}
+</style>
     body {
       <audio id="bg-music" autoplay loop>
   <source src="musica.mp3" type="audio/mpeg">
