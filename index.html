@@ -1,111 +1,98 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Roger Sombrio</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roger Sombrio - Autor</title>
   <style>
-      position: fixed;
-  top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: #111;
-  color: #fff;
-  padding: 12px 20px;
-  border-radius: 8px;
-  font-size: 14px;
-  box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
-  z-index: 9999;
-  opacity: 0.95;
-  animation: fadeOut 8s forwards;
-}
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: url('fundo.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
+      text-align: center;
+    }
 
-@keyframes fadeOut {
-  0% { opacity: 0.95; }
-  80% { opacity: 0.95; }
-  100% { opacity: 0; display: none; }
-}
-</style>
+    header {
+      background-color: rgba(0, 0, 0, 0.7);
+      padding: 20px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 2.5em;
+      color: #f00;
+    }
+
+    h2 {
+      margin-top: 10px;
+      font-size: 1.2em;
+      color: #ccc;
+    }
+
+    .livro {
+      background-color: rgba(0, 0, 0, 0.6);
+      margin: 30px auto;
+      padding: 20px;
+      max-width: 500px;
+      border-radius: 10px;
+    }
+
+    .livro img {
+      width: 100%;
+      border-radius: 8px;
+    }
+
+    .livro h3 {
+      margin-top: 10px;
+    }
+
+    .livro a {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 10px 20px;
+      background-color: #f00;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 5px;
+      transition: background 0.3s ease;
+    }
+
+    .livro a:hover {
+      background-color: #900;
+    }
+  </style>
   <script>
-function iniciarMusica() {
-  const audio = document.getElementById("bg-music");
-  if (audio.paused) {
-    audio.volume = 0.03; // Ajuste o volume aqui
-    audio.play().catch((error) => {
-      console.log("Erro ao tentar tocar o áudio:", error);
-    });
-  }
-}
-</script>
-
+    function iniciarMusica() {
+      const audio = document.getElementById("bg-music");
+      if (audio.paused) {
+        audio.volume = 0.03; // Volume bem baixo
+        audio.play().catch((error) => {
+          console.log("Erro ao tentar tocar o áudio:", error);
+        });
+      }
+    }
+  </script>
 </head>
+
 <body onclick="iniciarMusica()">
-  <div id="aviso-musica">
-  Este site possui música de fundo para intensificar a atmosfera de terror.
-  </div>
-
   <audio id="bg-music" loop>
-  <source src="musica.mp3" type="audio/mpeg">
-  Seu navegador não suporta áudio HTML5.
-</audio>
-
+    <source src="musica.mp3" type="audio/mpeg">
+    Seu navegador não suporta áudio HTML5.
+  </audio>
 
   <header>
     <h1>Roger Sombrio</h1>
-    <p>Criador de universos sombrios e vozes que sussurram da escuridão</p>
+    <h2>Autor de terror psicológico e horror brasileiro</h2>
   </header>
-  <nav>
-    <a href="#inicio">Início</a>
-    <a href="#sobre">Sobre</a>
-    <a href="#obras">Obras</a>
-    <a href="#galeria">Galeria</a>
-    <a href="#contato">Contato</a>
-  </nav>
 
-  <section id="inicio">
-    <h2>Bem-vindo ao mundo do autor: Roger Silva</h2>
-    <p>Entre na névoa e descubra os horrores que se escondem por trás do silêncio.</p>
-    <p class="highlight">"Quando a névoa se cala, é porque ela já entrou em você."</p>
-  </section>
-
-  <section id="sobre">
-    <h2>Sobre o Autor</h2>
-    <p>Roger Silva é um autor Brasileiro especializado em terror psicológico e horror gore. Suas histórias mergulham em atmosferas densas, entidades ancestrais e personagens marcados pela escuridão da alma.</p>
-  </section>
-
-  <section id="obras">
-    <h2>Obras</h2>
-    <ul>
-      <li><strong>O Sussurro da Névoa</strong> – O início de uma franquia de terror nacional.</li>
-      <!-- Espaço para futuras obras -->
-    </ul>
-  </section>
-  <section id="obras">
-  <h2 style="text-align: center; color: #fff; margin-bottom: 30px;">Obras</h2>
-
-  <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 30px;">
-    <div style="background-color: #111; border: 1px solid #444; padding: 20px; width: 280px; text-align: center; border-radius: 8px;">
-      <img src="https://rogersilva240.github.io/roger-sombrio-site/capa-sussurro.jpg" alt="Capa do livro O Sussurro da Névoa" style="width: 100%; border-radius: 5px; margin-bottom: 15px;" />
-      <h3 style="color: #e74c3c;">O Sussurro da Névoa</h3>
-      <p style="color: #ccc; font-size: 14px;">Em um vilarejo encoberto por uma névoa sinistra, Mateus enfrenta horrores indescritíveis. Um conto visceral de terror, mistério e sobrevivência psicológica.</p>
-      <a href="https://play.google.com/store/books/details/Roger_Silva_O_Sussurro_da_Névoa?id=kpNcEQAAQBAJ&hl=pt_BR" target="_blank" style="display: inline-block; margin-top: 10px; padding: 10px 20px; background-color: #e74c3c; color: #fff; text-decoration: none; border-radius: 5px;">Comprar agora</a>
-    </div>
+  <div class="livro">
+    <img src="capa1.png" alt="Capa do livro O Sussurro da Névoa">
+    <h3>O Sussurro da Névoa</h3>
+    <a href="https://play.google.com/store/books/details/Roger_Silva_O_Sussurro_da_Névoa?id=kpNcEQAAQBAJ&hl=pt_BR" target="_blank">Comprar</a>
   </div>
-</section>
-
-  <section id="galeria">
-    <h2>Galeria</h2>
-    <p>Imagens, capas e artes do universo sombrio de Roger Sombrio.</p>
-    <!-- Imagens podem ser adicionadas aqui -->
-  </section>
-
-  <section id="contato">
-    <h2>Contato</h2>
-    <p>Deseja entrar em contato com o autor? Envie um e-mail para: <strong>rogersilva199918@gmail.com</strong></p>
-  </section>
-
-  <footer>
-    <p>© 2025 Roger Sombrio. Todos os direitos reservados.</p>
-  </footer>
 </body>
+
 </html>
