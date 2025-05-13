@@ -64,14 +64,17 @@
     }
   </style>
   <script>
-  window.onload = function () {
-    const audio = document.getElementById("bg-music");
-    audio.volume = 0.5; // Altere o volume aqui
-    audio.play().catch(() => {
-      console.log("Autoplay bloqueado até interação do usuário.");
+function iniciarMusica() {
+  const audio = document.getElementById("bg-music");
+  if (audio.paused) {
+    audio.volume = 0.3; // Ajuste o volume aqui
+    audio.play().catch((error) => {
+      console.log("Erro ao tentar tocar o áudio:", error);
     });
-  };
+  }
+}
 </script>
+
 
 </head>
 <body onclick="iniciarMusica()">
