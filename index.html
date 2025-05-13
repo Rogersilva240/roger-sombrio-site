@@ -67,7 +67,7 @@
 function iniciarMusica() {
   const audio = document.getElementById("bg-music");
   if (audio.paused) {
-    audio.volume = 0.2; // Ajuste o volume aqui
+    audio.volume = 0.1; // Ajuste o volume aqui
     audio.play().catch((error) => {
       console.log("Erro ao tentar tocar o áudio:", error);
     });
