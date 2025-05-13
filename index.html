@@ -11,23 +11,19 @@
       color: #e0e0e0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
-    .login-container {
-      text-align: center;
-      margin: 20px auto;
-    }
-    .login-container button {
-      background-color: #e74c3c;
+
+    .login-btn {
+      background-color: #4285F4;
       color: white;
       border: none;
-      padding: 10px 20px;
-      border-radius: 5px;
-      font-size: 16px;
+      padding: 12px 20px;
+      border-radius: 6px;
       cursor: pointer;
+      font-weight: bold;
+      margin: 20px auto;
+      display: block;
     }
-    .login-container p {
-      margin-top: 10px;
-      color: #ccc;
-    }
+
     .aviso-flutuante {
       position: fixed;
       top: 50%;
@@ -45,10 +41,12 @@
       max-width: 90%;
       animation: tremer 1.5s infinite alternate;
     }
+
     @keyframes tremer {
       from { transform: translate(-50%, -50%) rotate(-1deg); }
       to   { transform: translate(-50%, -50%) rotate(1deg); }
     }
+
     .fechar {
       background: none;
       border: none;
@@ -60,46 +58,38 @@
       right: 12px;
       cursor: pointer;
     }
+
     header {
       background-color: #1a1a1a;
       padding: 20px;
       text-align: center;
       border-bottom: 2px solid #8b0000;
     }
-    header h1 {
-      font-size: 2.5em;
-      color: #e0e0e0;
-    }
-    header p {
-      font-style: italic;
-      color: #aa0000;
-    }
+
     nav {
       display: flex;
       justify-content: center;
       background-color: #111;
       padding: 10px;
       gap: 30px;
-      flex-wrap: wrap;
     }
+
     nav a {
       color: #e0e0e0;
       text-decoration: none;
       font-weight: bold;
     }
+
     nav a:hover {
       color: #ff0000;
     }
+
     section {
       padding: 40px 20px;
       max-width: 800px;
       margin: auto;
     }
-    .highlight {
-      color: #ff0000;
-      font-style: italic;
-      margin-top: 10px;
-    }
+
     footer {
       background-color: #111;
       color: #888;
@@ -108,43 +98,24 @@
       border-top: 1px solid #8b0000;
     }
   </style>
-  <script>
-    function iniciarMusica() {
-      const audio = document.getElementById("bg-music");
-      if (audio.paused) {
-        audio.volume = 0.03;
-        audio.play().catch((error) => {
-          console.log("Erro ao tocar o áudio:", error);
-        });
-      }
-    }
-
-    function fecharAviso() {
-      document.querySelector(".aviso-flutuante").style.display = "none";
-    }
-  </script>
 </head>
 <body onclick="iniciarMusica()">
 
-  <!-- Áudio de fundo -->
   <audio id="bg-music" loop>
     <source src="musica.mp3" type="audio/mpeg">
     Seu navegador não suporta áudio HTML5.
   </audio>
 
-  <!-- Aviso -->
   <div class="aviso-flutuante">
     <button class="fechar" onclick="fecharAviso()">X</button>
     ⚠️ Aviso: Este site possui músicas de terror ao fundo.
   </div>
 
-  <!-- Cabeçalho -->
   <header>
     <h1>Roger Sombrio</h1>
     <p>Criador de universos sombrios e vozes que sussurram da escuridão</p>
   </header>
 
-  <!-- Navegação -->
   <nav>
     <a href="#inicio">Início</a>
     <a href="#sobre">Sobre</a>
@@ -153,33 +124,27 @@
     <a href="#contato">Contato</a>
   </nav>
 
-  <!-- Login com Google -->
-  <div class="login-container">
-    <button id="login-btn">Entrar com Google</button>
-    <button id="logout-btn" style="display: none;">Sair</button>
-    <p id="user-info"></p>
-  </div>
+  <!-- Botão de Login com Google -->
+  <button class="login-btn" onclick="loginComGoogle()">Entrar com Google</button>
 
-  <!-- Conteúdo -->
   <section id="inicio">
     <h2>Bem-vindo ao mundo do autor: Roger Silva</h2>
     <p>Entre na névoa e descubra os horrores que se escondem por trás do silêncio.</p>
-    <p class="highlight">"Quando a névoa se cala, é porque ela já entrou em você."</p>
   </section>
 
   <section id="sobre">
     <h2>Sobre o Autor</h2>
-    <p>Roger Silva é um autor Brasileiro especializado em terror psicológico e horror gore. Suas histórias mergulham em atmosferas densas, entidades ancestrais e personagens marcados pela escuridão da alma.</p>
+    <p>Roger Silva é um autor Brasileiro especializado em terror psicológico e horror gore.</p>
   </section>
 
   <section id="obras">
-    <h2 style="text-align: center; color: #fff; margin-bottom: 30px;">Obras</h2>
+    <h2 style="text-align: center; color: #fff;">Obras</h2>
     <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 30px;">
-      <div style="background-color: #111; border: 1px solid #444; padding: 20px; width: 280px; text-align: center; border-radius: 8px;">
-        <img src="https://rogersilva240.github.io/roger-sombrio-site/capa-sussurro.jpg" alt="Capa do livro O Sussurro da Névoa" style="width: 100%; border-radius: 5px; margin-bottom: 15px;" />
+      <div style="background-color: #111; padding: 20px; width: 280px; border-radius: 8px;">
+        <img src="https://rogersilva240.github.io/roger-sombrio-site/capa-sussurro.jpg" alt="Capa do livro O Sussurro da Névoa" style="width: 100%; border-radius: 5px;" />
         <h3 style="color: #e74c3c;">O Sussurro da Névoa</h3>
-        <p style="color: #ccc; font-size: 14px;">Em um vilarejo encoberto por uma névoa sinistra, Mateus enfrenta horrores indescritíveis. Um conto visceral de terror, mistério e sobrevivência psicológica.</p>
-        <a href="https://play.google.com/store/books/details/Roger_Silva_O_Sussurro_da_Névoa?id=kpNcEQAAQBAJ&hl=pt_BR" target="_blank" style="display: inline-block; margin-top: 10px; padding: 10px 20px; background-color: #e74c3c; color: #fff; text-decoration: none; border-radius: 5px;">Comprar agora</a>
+        <p style="color: #ccc; font-size: 14px;">Em um vilarejo encoberto por névoa sinistra...</p>
+        <a href="https://play.google.com/store/books/details/Roger_Silva_O_Sussurro_da_Névoa?id=kpNcEQAAQBAJ&hl=pt_BR" target="_blank" style="color: #e74c3c;">Comprar agora</a>
       </div>
     </div>
   </section>
@@ -198,52 +163,51 @@
     <p>© 2025 Roger Sombrio. Todos os direitos reservados.</p>
   </footer>
 
-  <!-- Firebase SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js"></script>
+  <!-- Firebase e Auth -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+    import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
 
-  <script>
     const firebaseConfig = {
       apiKey: "AIzaSyD5NWjj6UKI8nbbonQYrDObkpu9AXztB60",
       authDomain: "roger-sombrio.firebaseapp.com",
-      projectId: "roger-sombrio"
+      projectId: "roger-sombrio",
+      storageBucket: "roger-sombrio.appspot.com",
+      messagingSenderId: "XXX",
+      appId: "XXX"
     };
 
-    firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-    const provider = new firebase.auth.GoogleAuthProvider();
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const provider = new GoogleAuthProvider();
 
-    const loginBtn = document.getElementById('login-btn');
-    const logoutBtn = document.getElementById('logout-btn');
-    const userInfo = document.getElementById('user-info');
-
-    loginBtn.onclick = () => {
-      auth.signInWithPopup(provider).then(result => {
-        const user = result.user;
-        userInfo.textContent = `Olá, ${user.displayName} (${user.email})`;
-        loginBtn.style.display = 'none';
-        logoutBtn.style.display = 'inline-block';
-      }).catch(error => {
-        alert("Erro ao fazer login.");
-        console.error(error);
-      });
+    window.loginComGoogle = () => {
+      signInWithPopup(auth, provider)
+        .then((result) => {
+          const user = result.user;
+          alert(`Bem-vindo, ${user.displayName}!`);
+        })
+        .catch((error) => {
+          console.error("Erro no login:", error);
+          alert("Falha no login.");
+        });
     };
+  </script>
 
-    logoutBtn.onclick = () => {
-      auth.signOut().then(() => {
-        userInfo.textContent = '';
-        loginBtn.style.display = 'inline-block';
-        logoutBtn.style.display = 'none';
-      });
-    };
-
-    auth.onAuthStateChanged(user => {
-      if (user) {
-        userInfo.textContent = `Olá, ${user.displayName} (${user.email})`;
-        loginBtn.style.display = 'none';
-        logoutBtn.style.display = 'inline-block';
+  <script>
+    function iniciarMusica() {
+      const audio = document.getElementById("bg-music");
+      if (audio.paused) {
+        audio.volume = 0.03;
+        audio.play().catch((error) => {
+          console.log("Erro ao tocar o áudio:", error);
+        });
       }
-    });
+    }
+
+    function fecharAviso() {
+      document.querySelector(".aviso-flutuante").style.display = "none";
+    }
   </script>
 </body>
-</html>
+  </html>
