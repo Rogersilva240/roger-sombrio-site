@@ -6,6 +6,11 @@
   <title>Roger Sombrio</title>
   <style>
     body {
+      <audio id="bg-music" autoplay loop>
+  <source src="musica.mp3" type="audio/mpeg">
+  Seu navegador não suporta áudio HTML5.
+</audio>
+
       margin: 0;
       background-color: #0d0d0d;
       color: #e0e0e0;
@@ -58,23 +63,18 @@
       border-top: 1px solid #8b0000;
     }
   </style>
-</head>
-<body>
-  <audio id="bg-music" autoplay loop>
-  <source src="musica.mp3" type="audio/mpeg">
-  Seu navegador não suporta áudio HTML5.
-</audio>
-
-<script>
+  <script>
   window.onload = function () {
     const audio = document.getElementById("bg-music");
-    audio.volume = 0.3; // ajuste o volume de 0 (mudo) a 1 (máximo)
-    audio.play().catch((e) => {
-      console.log("Autoplay bloqueado pelo navegador até interação do usuário.");
+    audio.volume = 0.3; // Altere o volume aqui
+    audio.play().catch(() => {
+      console.log("Autoplay bloqueado até interação do usuário.");
     });
   };
 </script>
 
+</head>
+<body>
 
   <header>
     <h1>Roger Sombrio</h1>
