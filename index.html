@@ -11,7 +11,23 @@
       color: #e0e0e0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
-
+    .login-container {
+      text-align: center;
+      margin: 20px auto;
+    }
+    .login-container button {
+      background-color: #e74c3c;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .login-container p {
+      margin-top: 10px;
+      color: #ccc;
+    }
     .aviso-flutuante {
       position: fixed;
       top: 50%;
@@ -29,12 +45,10 @@
       max-width: 90%;
       animation: tremer 1.5s infinite alternate;
     }
-
     @keyframes tremer {
       from { transform: translate(-50%, -50%) rotate(-1deg); }
       to   { transform: translate(-50%, -50%) rotate(1deg); }
     }
-
     .fechar {
       background: none;
       border: none;
@@ -46,7 +60,6 @@
       right: 12px;
       cursor: pointer;
     }
-
     header {
       background-color: #1a1a1a;
       padding: 20px;
@@ -67,6 +80,7 @@
       background-color: #111;
       padding: 10px;
       gap: 30px;
+      flex-wrap: wrap;
     }
     nav a {
       color: #e0e0e0;
@@ -118,17 +132,19 @@
     Seu navegador não suporta áudio HTML5.
   </audio>
 
-  <!-- Caixinha de aviso -->
+  <!-- Aviso -->
   <div class="aviso-flutuante">
     <button class="fechar" onclick="fecharAviso()">X</button>
     ⚠️ Aviso: Este site possui músicas de terror ao fundo.
   </div>
 
-  <!-- Conteúdo do site -->
+  <!-- Cabeçalho -->
   <header>
     <h1>Roger Sombrio</h1>
     <p>Criador de universos sombrios e vozes que sussurram da escuridão</p>
   </header>
+
+  <!-- Navegação -->
   <nav>
     <a href="#inicio">Início</a>
     <a href="#sobre">Sobre</a>
@@ -137,6 +153,14 @@
     <a href="#contato">Contato</a>
   </nav>
 
+  <!-- Login com Google -->
+  <div class="login-container">
+    <button id="login-btn">Entrar com Google</button>
+    <button id="logout-btn" style="display: none;">Sair</button>
+    <p id="user-info"></p>
+  </div>
+
+  <!-- Conteúdo -->
   <section id="inicio">
     <h2>Bem-vindo ao mundo do autor: Roger Silva</h2>
     <p>Entre na névoa e descubra os horrores que se escondem por trás do silêncio.</p>
@@ -173,5 +197,53 @@
   <footer>
     <p>© 2025 Roger Sombrio. Todos os direitos reservados.</p>
   </footer>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.4.0/firebase-auth.js"></script>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyD5NWjj6UKI8nbbonQYrDObkpu9AXztB60",
+      authDomain: "roger-sombrio.firebaseapp.com",
+      projectId: "roger-sombrio"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const provider = new firebase.auth.GoogleAuthProvider();
+
+    const loginBtn = document.getElementById('login-btn');
+    const logoutBtn = document.getElementById('logout-btn');
+    const userInfo = document.getElementById('user-info');
+
+    loginBtn.onclick = () => {
+      auth.signInWithPopup(provider).then(result => {
+        const user = result.user;
+        userInfo.textContent = `Olá, ${user.displayName} (${user.email})`;
+        loginBtn.style.display = 'none';
+        logoutBtn.style.display = 'inline-block';
+      }).catch(error => {
+        alert("Erro ao fazer login.");
+        console.error(error);
+      });
+    };
+
+    logoutBtn.onclick = () => {
+      auth.signOut().then(() => {
+        userInfo.textContent = '';
+        loginBtn.style.display = 'inline-block';
+        logoutBtn.style.display = 'none';
+      });
+    };
+
+    auth.onAuthStateChanged(user => {
+      if (user) {
+        userInfo.textContent = `Olá, ${user.displayName} (${user.email})`;
+        loginBtn.style.display = 'none';
+        logoutBtn.style.display = 'inline-block';
+      }
+    });
+  </script>
 </body>
 </html>
