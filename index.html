@@ -5,9 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Roger Sombrio</title>
   <style>
-    <style>
-#aviso-musica {
-  position: fixed;
+      position: fixed;
   top: 20px;
   left: 50%;
   transform: translateX(-50%);
@@ -28,64 +26,6 @@
   100% { opacity: 0; display: none; }
 }
 </style>
-    body {
-      <audio id="bg-music" autoplay loop>
-  <source src="musica.mp3" type="audio/mpeg">
-  Seu navegador não suporta áudio HTML5.
-</audio>
-
-      margin: 0;
-      background-color: #0d0d0d;
-      color: #e0e0e0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-    header {
-      background-color: #1a1a1a;
-      padding: 20px;
-      text-align: center;
-      border-bottom: 2px solid #8b0000;
-    }
-    header h1 {
-      font-size: 2.5em;
-      color: #e0e0e0;
-    }
-    header p {
-      font-style: italic;
-      color: #aa0000;
-    }
-    nav {
-      display: flex;
-      justify-content: center;
-      background-color: #111;
-      padding: 10px;
-      gap: 30px;
-    }
-    nav a {
-      color: #e0e0e0;
-      text-decoration: none;
-      font-weight: bold;
-    }
-    nav a:hover {
-      color: #ff0000;
-    }
-    section {
-      padding: 40px 20px;
-      max-width: 800px;
-      margin: auto;
-    }
-    .highlight {
-      color: #ff0000;
-      font-style: italic;
-      margin-top: 10px;
-    }
-    footer {
-      background-color: #111;
-      color: #888;
-      text-align: center;
-      padding: 20px;
-      border-top: 1px solid #8b0000;
-    }
-  </style>
   <script>
 function iniciarMusica() {
   const audio = document.getElementById("bg-music");
@@ -97,7 +37,6 @@ function iniciarMusica() {
   }
 }
 </script>
-
 
 </head>
 <body onclick="iniciarMusica()">
