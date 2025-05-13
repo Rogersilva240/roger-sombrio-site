@@ -1,94 +1,146 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Roger Sombrio - Contos de Terror e Horror Brasileiro</title>
-  <meta name="description" content="Roger Sombrio escreve contos de terror envolventes e sombrios, inspirados no folclore e no horror brasileiro. Explore agora!">
-  <meta name="keywords" content="Roger Sombrio, contos de terror, horror brasileiro, histórias assustadoras">
-  <meta name="author" content="Roger Sombrio">
-  <link rel="icon" href="capa-sussurro.jpg" type="image/jpeg">
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Roger Sombrio</title>
   <style>
     body {
+      <audio id="bg-music" autoplay loop>
+  <source src="musica.mp3" type="audio/mpeg">
+  Seu navegador não suporta áudio HTML5.
+</audio>
+
       margin: 0;
-      font-family: 'Georgia', serif;
       background-color: #0d0d0d;
-      color: #e6e6e6;
+      color: #e0e0e0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    header {
+      background-color: #1a1a1a;
+      padding: 20px;
+      text-align: center;
+      border-bottom: 2px solid #8b0000;
+    }
+    header h1 {
+      font-size: 2.5em;
+      color: #e0e0e0;
+    }
+    header p {
+      font-style: italic;
+      color: #aa0000;
+    }
+    nav {
       display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      min-height: 100vh;
+      justify-content: center;
+      background-color: #111;
+      padding: 10px;
+      gap: 30px;
+    }
+    nav a {
+      color: #e0e0e0;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    nav a:hover {
+      color: #ff0000;
+    }
+    section {
       padding: 40px 20px;
-      background-image: radial-gradient(#1a1a1a 1px, transparent 1px);
-      background-size: 40px 40px;
+      max-width: 800px;
+      margin: auto;
     }
-
-    h1 {
-      font-size: 2.8em;
+    .highlight {
+      color: #ff0000;
+      font-style: italic;
+      margin-top: 10px;
+    }
+    footer {
+      background-color: #111;
+      color: #888;
       text-align: center;
-      margin-bottom: 20px;
-      color: #ff3333;
-      text-shadow: 2px 2px 5px black;
-    }
-
-    p {
-      font-size: 1.2em;
-      max-width: 700px;
-      text-align: center;
-      line-height: 1.6;
-    }
-
-    img {
-      margin-top: 30px;
-      max-width: 90%;
-      height: auto;
-      border: 4px solid #333;
-      box-shadow: 0 0 20px #ff3333;
-    }
-
-    .floating-msg {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: rgba(0, 0, 0, 0.85);
-      padding: 20px 30px;
-      border: 2px solid #ff3333;
-      color: #fff;
-      font-size: 1.2em;
-      z-index: 9999;
-      text-align: center;
-      border-radius: 10px;
-      animation: fadeOut 8s forwards;
-    }
-
-    @keyframes fadeOut {
-      0%   { opacity: 1; }
-      80%  { opacity: 1; }
-      100% { opacity: 0; display: none; }
+      padding: 20px;
+      border-top: 1px solid #8b0000;
     }
   </style>
+  <script>
+function iniciarMusica() {
+  const audio = document.getElementById("bg-music");
+  if (audio.paused) {
+    audio.volume = 0.03; // Ajuste o volume aqui
+    audio.play().catch((error) => {
+      console.log("Erro ao tentar tocar o áudio:", error);
+    });
+  }
+}
+</script>
+
+
 </head>
-<body>
-  <div class="floating-msg">
-    ⚠ Este site contém música ambiente de terror. Recomendado uso com fones de ouvido.
+<body onclick="iniciarMusica()">
+
+  <audio id="bg-music" loop>
+  <source src="musica.mp3" type="audio/mpeg">
+  Seu navegador não suporta áudio HTML5.
+</audio>
+
+
+  <header>
+    <h1>Roger Sombrio</h1>
+    <p>Criador de universos sombrios e vozes que sussurram da escuridão</p>
+  </header>
+  <nav>
+    <a href="#inicio">Início</a>
+    <a href="#sobre">Sobre</a>
+    <a href="#obras">Obras</a>
+    <a href="#galeria">Galeria</a>
+    <a href="#contato">Contato</a>
+  </nav>
+
+  <section id="inicio">
+    <h2>Bem-vindo ao mundo do autor: Roger Silva</h2>
+    <p>Entre na névoa e descubra os horrores que se escondem por trás do silêncio.</p>
+    <p class="highlight">"Quando a névoa se cala, é porque ela já entrou em você."</p>
+  </section>
+
+  <section id="sobre">
+    <h2>Sobre o Autor</h2>
+    <p>Roger Silva é um autor Brasileiro especializado em terror psicológico e horror gore. Suas histórias mergulham em atmosferas densas, entidades ancestrais e personagens marcados pela escuridão da alma.</p>
+  </section>
+
+  <section id="obras">
+    <h2>Obras</h2>
+    <ul>
+      <li><strong>O Sussurro da Névoa</strong> – O início de uma franquia de terror nacional.</li>
+      <!-- Espaço para futuras obras -->
+    </ul>
+  </section>
+  <section id="obras">
+  <h2 style="text-align: center; color: #fff; margin-bottom: 30px;">Obras</h2>
+
+  <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 30px;">
+    <div style="background-color: #111; border: 1px solid #444; padding: 20px; width: 280px; text-align: center; border-radius: 8px;">
+      <img src="https://rogersilva240.github.io/roger-sombrio-site/capa-sussurro.jpg" alt="Capa do livro O Sussurro da Névoa" style="width: 100%; border-radius: 5px; margin-bottom: 15px;" />
+      <h3 style="color: #e74c3c;">O Sussurro da Névoa</h3>
+      <p style="color: #ccc; font-size: 14px;">Em um vilarejo encoberto por uma névoa sinistra, Mateus enfrenta horrores indescritíveis. Um conto visceral de terror, mistério e sobrevivência psicológica.</p>
+      <a href="https://play.google.com/store/books/details/Roger_Silva_O_Sussurro_da_Névoa?id=kpNcEQAAQBAJ&hl=pt_BR" target="_blank" style="display: inline-block; margin-top: 10px; padding: 10px 20px; background-color: #e74c3c; color: #fff; text-decoration: none; border-radius: 5px;">Comprar agora</a>
+    </div>
   </div>
+</section>
 
-  <h1>Bem-vindo ao mundo sombrio de Roger Sombrio</h1>
+  <section id="galeria">
+    <h2>Galeria</h2>
+    <p>Imagens, capas e artes do universo sombrio de Roger Sombrio.</p>
+    <!-- Imagens podem ser adicionadas aqui -->
+  </section>
 
-  <p>
-    Aqui você encontrará contos de terror inspirados nos pesadelos mais profundos da alma humana. 
-    Explore histórias originais envoltas em mistério, folclore brasileiro e a escuridão que habita cada sombra. 
-    Desperte seu medo... e leia com cuidado.
-  </p>
+  <section id="contato">
+    <h2>Contato</h2>
+    <p>Deseja entrar em contato com o autor? Envie um e-mail para: <strong>rogersilva199918@gmail.com</strong></p>
+  </section>
 
-  <img src="capa-sussurro.jpg" alt="Imagem de capa do conto Sussurro">
-
-  <audio autoplay loop>
-    <source src="musica.mp3" type="audio/mpeg">
-    Seu navegador não suporta o áudio.
-  </audio>
+  <footer>
+    <p>© 2025 Roger Sombrio. Todos os direitos reservados.</p>
+  </footer>
 </body>
 </html>
