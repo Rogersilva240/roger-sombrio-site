@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Roger Sombrio</title>
   <style>
+    html {
+      scroll-behavior: smooth;
+    }
     body {
       margin: 0;
       background-color: #0d0d0d;
@@ -90,6 +93,12 @@
       margin: auto;
     }
 
+    section h2 {
+      color: #ff4444;
+      border-bottom: 2px solid #8b0000;
+      padding-bottom: 10px;
+    }
+
     footer {
       background-color: #111;
       color: #888;
@@ -124,9 +133,6 @@
     <a href="#contato">Contato</a>
   </nav>
 
-  <!-- Botão de Login com Google -->
-  <button class="login-btn" onclick="loginComGoogle()">Entrar com Google</button>
-
   <section id="inicio">
     <h2>Bem-vindo ao mundo do autor: Roger Silva</h2>
     <p>Entre na névoa e descubra os horrores que se escondem por trás do silêncio.</p>
@@ -138,27 +144,24 @@
   </section>
 
   <section id="obras">
+    <h2>Obras</h2>
     <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; margin-top: 30px;">
 
-  <!-- Livro 1 -->
-  <div style="background-color: #111; border: 1px solid #444; padding: 20px; width: 220px; text-align: center; border-radius: 8px;">
-    <img src="https://rogersilva240.github.io/roger-sombrio-site/capa-sussurro.jpg" alt="Capa do livro O Sussurro da Névoa" style="width: 100%; border-radius: 5px; margin-bottom: 15px;" />
-    <h3 style="color: #e74c3c;">O Sussurro da Névoa</h3>
-    <p style="color: #ccc; font-size: 13px;">Em um vilarejo coberto por névoa sinistra, Mateus enfrenta horrores indescritíveis.</p>
-    <a href="https://play.google.com/store/books/details/Roger_Silva_O_Sussurro_da_Névoa?id=kpNcEQAAQBAJ&hl=pt_BR" target="_blank" style="display: inline-block; margin-top: 10px; padding: 8px 16px; background-color: #e74c3c; color: #fff; text-decoration: none; border-radius: 5px;">Comprar</a>
-  </div>
+      <div style="background-color: #111; border: 1px solid #444; padding: 20px; width: 220px; text-align: center; border-radius: 8px;">
+        <img src="https://rogersilva240.github.io/roger-sombrio-site/capa-sussurro.jpg" alt="Capa do livro O Sussurro da Névoa de Roger Sombrio" style="width: 100%; border-radius: 5px; margin-bottom: 15px;" />
+        <h3 style="color: #e74c3c;">O Sussurro da Névoa</h3>
+        <p style="color: #ccc; font-size: 13px;">Em um vilarejo coberto por névoa sinistra, Mateus enfrenta horrores indescritíveis.</p>
+        <a href="https://play.google.com/store/books/details/Roger_Silva_O_Sussurro_da_N%C3%A9voa?id=kpNcEQAAQBAJ&hl=pt_BR" target="_blank" style="display: inline-block; margin-top: 10px; padding: 8px 16px; background-color: #e74c3c; color: #fff; text-decoration: none; border-radius: 5px;">Comprar</a>
+      </div>
 
-  <!-- Livro 2 -->
-  <div style="background-color: #111; border: 1px solid #444; padding: 20px; width: 220px; text-align: center; border-radius: 8px;">
-    <img src="https://rogersilva240.github.io/roger-sombrio-site/capa-contos2.jpg
-" alt="Capa do livro Contos Para Madrugada 2" style="width: 100%; border-radius: 5px; margin-bottom: 15px;" />
-    <h3 style="color: #e74c3c;">Contos Para Madrugada 2</h3>
-    <p style="color: #ccc; font-size: 13px;">Seja bem-vindo(a) ao *Contos Para Madrugada 2*: terror, horror e contos sombrios de tirar o fôlego.</p>
-    <a href="https://play.google.com/store/books/details/Roger_Silva_Contos_Para_Madrugada_2?id=OLoFEQAAQBAJ&hl=pt_BR" target="_blank" style="display: inline-block; margin-top: 10px; padding: 8px 16px; background-color: #e74c3c; color: #fff; text-decoration: none; border-radius: 5px;">Comprar</a>
-  </div>
+      <div style="background-color: #111; border: 1px solid #444; padding: 20px; width: 220px; text-align: center; border-radius: 8px;">
+        <img src="https://rogersilva240.github.io/roger-sombrio-site/capa-contos2.jpg" alt="Capa do livro Contos Para Madrugada 2 de Roger Sombrio" style="width: 100%; border-radius: 5px; margin-bottom: 15px;" />
+        <h3 style="color: #e74c3c;">Contos Para Madrugada 2</h3>
+        <p style="color: #ccc; font-size: 13px;">Terror, horror e contos sombrios de tirar o fôlego esperam por você nesse volume aterrador.</p>
+        <a href="https://play.google.com/store/books/details/Roger_Silva_Contos_Para_Madrugada_2?id=OLoFEQAAQBAJ&hl=pt_BR" target="_blank" style="display: inline-block; margin-top: 10px; padding: 8px 16px; background-color: #e74c3c; color: #fff; text-decoration: none; border-radius: 5px;">Comprar</a>
+      </div>
 
-</div>
-
+    </div>
   </section>
 
   <section id="galeria">
@@ -175,11 +178,9 @@
     <p>© 2025 Roger Sombrio. Todos os direitos reservados.</p>
   </footer>
 
-  <!-- Firebase e Auth -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-    import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
-
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-auth-compat.js"></script>
+  <script>
     const firebaseConfig = {
       apiKey: "AIzaSyD5NWjj6UKI8nbbonQYrDObkpu9AXztB60",
       authDomain: "roger-sombrio.firebaseapp.com",
@@ -189,12 +190,11 @@
       appId: "XXX"
     };
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const provider = new GoogleAuthProvider();
+    firebase.initializeApp(firebaseConfig);
+    const provider = new firebase.auth.GoogleAuthProvider();
 
-    window.loginComGoogle = () => {
-      signInWithPopup(auth, provider)
+    function loginComGoogle() {
+      firebase.auth().signInWithPopup(provider)
         .then((result) => {
           const user = result.user;
           alert(`Bem-vindo, ${user.displayName}!`);
@@ -203,7 +203,7 @@
           console.error("Erro no login:", error);
           alert("Falha no login.");
         });
-    };
+    }
   </script>
 
   <script>
@@ -222,4 +222,4 @@
     }
   </script>
 </body>
-  </html>
+</html>
