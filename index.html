@@ -10,6 +10,7 @@
       background-color: #0d0d0d;
       color: #e0e0e0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      overflow-x: hidden;
     }
 
     .login-btn {
@@ -22,6 +23,7 @@
       font-weight: bold;
       margin: 20px auto;
       display: block;
+      max-width: 220px;
     }
 
     .aviso-flutuante {
@@ -64,8 +66,6 @@
       padding: 20px;
       text-align: center;
       border-bottom: 2px solid #8b0000;
-      position: relative;
-      z-index: 10;
     }
 
     nav {
@@ -74,8 +74,7 @@
       background-color: #111;
       padding: 10px;
       gap: 30px;
-      position: relative;
-      z-index: 10;
+      flex-wrap: wrap;
     }
 
     nav a {
@@ -92,8 +91,6 @@
       padding: 40px 20px;
       max-width: 800px;
       margin: auto;
-      position: relative;
-      z-index: 10;
     }
 
     footer {
@@ -102,34 +99,46 @@
       text-align: center;
       padding: 20px;
       border-top: 1px solid #8b0000;
-      position: relative;
-      z-index: 10;
+      margin-top: 40px;
     }
 
-    /* Livros - Responsivo */
-    .livros-container {
+    /* Efeito névoa via canvas */
+    #nevoaCanvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Livros */
+    #obras .livros-container {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 20px;
+      gap: 30px;
       margin-top: 30px;
+      z-index: 10;
+      position: relative;
     }
 
     .livro {
       background-color: #111;
       border: 1px solid #444;
       padding: 20px;
-      width: 180px;
+      width: 210px;
       text-align: center;
       border-radius: 8px;
-      flex: 1 1 180px;
-      max-width: 180px;
       box-sizing: border-box;
-      transition: transform 0.3s;
+      transition: transform 0.3s ease;
     }
 
     .livro:hover {
       transform: scale(1.05);
+      border-color: #e74c3c;
+      box-shadow: 0 0 15px #e74c3c;
     }
 
     .livro img {
@@ -147,7 +156,6 @@
       color: #ccc;
       font-size: 13px;
       margin: 0 0 10px 0;
-      min-height: 52px; /* para manter altura uniforme */
     }
 
     .livro a {
@@ -161,77 +169,102 @@
       font-weight: bold;
     }
 
-    .livro a:hover {
-      background-color: #c0392b;
-    }
-
-    /* Efeito de piscar fundo */
-    .piscar {
-      animation: piscarLuz 5s infinite;
-    }
-
-    @keyframes piscarLuz {
-      0%, 100% { background-color: #0d0d0d; }
-      50% { background-color: #1a1a1a; }
-    }
-
-    /* Sombra animada */
-    .sombra {
-      position: fixed;
-      bottom: 0;
-      left: -100px;
-      width: 200px;
-      height: 200px;
-      background: radial-gradient(circle, rgba(0,0,0,0.6) 40%, transparent 70%);
-      border-radius: 50%;
-      animation: moverSombra 12s infinite ease-in-out;
-      z-index: 0;
-    }
-
-    @keyframes moverSombra {
-      0% { transform: translateX(0); }
-      50% { transform: translateX(120vw); }
-      100% { transform: translateX(0); }
-    }
-
-    /* Névoa canvas */
-    #nevoa-canvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      pointer-events: none;
-      z-index: 1;
-      mix-blend-mode: screen;
-      opacity: 0.15;
-    }
-
-    /* Para mobile, livros ocuparem largura menor */
-    @media (max-width: 480px) {
-      .livro {
-        width: 140px;
-        max-width: 140px;
-        flex: 1 1 140px;
+    /* Responsivo para celulares */
+    @media screen and (max-width: 480px) {
+      #obras .livros-container {
+        flex-direction: column;
+        align-items: center;
       }
+      .livro {
+        width: 90%;
+      }
+      nav {
+        gap: 15px;
+      }
+    }
+
+    /* Comentários */
+    #comentarios-section {
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 20px;
+      background-color: #1a1a1a;
+      border-radius: 8px;
+      box-sizing: border-box;
+      color: #e0e0e0;
+      position: relative;
+      z-index: 10;
+    }
+
+    #comentarios-list {
+      max-height: 300px;
+      overflow-y: auto;
+      margin-bottom: 20px;
+      border: 1px solid #444;
+      padding: 15px;
+      border-radius: 5px;
+      background-color: #111;
+    }
+
+    .comentario-item {
+      border-bottom: 1px solid #444;
+      padding: 8px 0;
+      font-size: 14px;
+    }
+
+    .comentario-item:last-child {
+      border-bottom: none;
+    }
+
+    #form-comentario textarea {
+      width: 100%;
+      resize: vertical;
+      min-height: 80px;
+      padding: 10px;
+      font-size: 14px;
+      border-radius: 5px;
+      border: 1px solid #444;
+      background-color: #222;
+      color: #e0e0e0;
+      box-sizing: border-box;
+      margin-bottom: 10px;
+    }
+
+    #form-comentario button {
+      background-color: #e74c3c;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      color: #fff;
+      font-weight: bold;
+      cursor: pointer;
+      float: right;
+    }
+
+    #form-comentario button:disabled {
+      background-color: #666;
+      cursor: not-allowed;
+    }
+
+    #usuario-info {
+      margin-bottom: 10px;
+      font-size: 14px;
     }
   </style>
 </head>
 <body onclick="iniciarMusica()">
 
   <audio id="bg-music" loop autoplay>
-    <source src="musica.mp3" type="audio/mpeg" />
+    <source src="musica.mp3" type="audio/mpeg">
     Seu navegador não suporta áudio HTML5.
   </audio>
 
-  <div class="aviso-flutuante">
+  <div class="aviso-flutuante" id="aviso-flutuante">
     <button class="fechar" onclick="fecharAviso()">X</button>
     ⚠️ Aviso: Este site possui músicas de terror ao fundo.
   </div>
 
-  <!-- Névoa animada em canvas -->
-  <canvas id="nevoa-canvas"></canvas>
-  <div class="sombra"></div>
+  <canvas id="nevoaCanvas"></canvas>
 
   <header>
     <h1>Roger Sombrio</h1>
@@ -244,9 +277,10 @@
     <a href="#obras">Obras</a>
     <a href="#galeria">Galeria</a>
     <a href="#contato">Contato</a>
+    <a href="#comentarios-section">Comentários</a>
   </nav>
 
-  <button class="login-btn" onclick="loginComGoogle()">Entrar com Google</button>
+  <button class="login-btn" onclick="loginComGoogle()" id="btn-login">Entrar com Google</button>
 
   <section id="inicio">
     <h2>Bem-vindo ao mundo do autor: Roger Silva</h2>
@@ -287,14 +321,28 @@
     <p>Deseja entrar em contato com o autor? Envie um e-mail para: <strong>rogersilva199918@gmail.com</strong></p>
   </section>
 
+  <section id="comentarios-section">
+    <h2>Comentários</h2>
+    <div id="usuario-info">Você não está logado.</div>
+    <div id="comentarios-list"></div>
+
+    <form id="form-comentario" onsubmit="enviarComentario(event)">
+      <textarea id="comentario-text" placeholder="Escreva seu comentário aqui..." required></textarea>
+      <button type="submit" disabled>Enviar Comentário</button>
+    </form>
+  </section>
+
   <footer>
     <p>© 2025 Roger Sombrio. Todos os direitos reservados.</p>
   </footer>
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-    import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js"></script>
 
+  <script>
+    // Config Firebase (substitua com suas credenciais reais)
     const firebaseConfig = {
       apiKey: "AIzaSyD5NWjj6UKI8nbbonQYrDObkpu9AXztB60",
       authDomain: "roger-sombrio.firebaseapp.com",
@@ -304,66 +352,99 @@
       appId: "XXX"
     };
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const provider = new GoogleAuthProvider();
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
 
-    window.loginComGoogle = () => {
-      signInWithPopup(auth, provider)
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    const btnLogin = document.getElementById("btn-login");
+    const usuarioInfo = document.getElementById("usuario-info");
+    const comentarioText = document.getElementById("comentario-text");
+    const formComentario = document.getElementById("form-comentario");
+    const btnEnviar = formComentario.querySelector("button");
+    const comentariosList = document.getElementById("comentarios-list");
+
+    let usuarioAtual = null;
+
+    // Login com Google
+    function loginComGoogle() {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      auth.signInWithPopup(provider)
         .then((result) => {
-          const user = result.user;
-          alert(`Bem-vindo, ${user.displayName}!`);
+          usuarioAtual = result.user;
+          usuarioInfo.textContent = `Logado como: ${usuarioAtual.displayName}`;
+          btnLogin.style.display = "none";
+          btnEnviar.disabled = false;
+          carregarComentarios();
         })
         .catch((error) => {
-          console.error("Erro no login:", error);
-          alert("Falha no login.");
+          alert("Erro no login: " + error.message);
         });
-    };
-  </script>
+    }
 
-  <script>
+    // Logout (opcional, se quiser adicionar)
+    // auth.signOut();
+
+    // Enviar comentário
+    function enviarComentario(event) {
+      event.preventDefault();
+      if (!usuarioAtual) {
+        alert("Você precisa estar logado para comentar.");
+        return;
+      }
+
+      const texto = comentarioText.value.trim();
+      if (texto.length === 0) return;
+
+      db.collection("comentarios").add({
+        usuario: usuarioAtual.displayName,
+        texto: texto,
+        data: firebase.firestore.FieldValue.serverTimestamp()
+      }).then(() => {
+        comentarioText.value = "";
+        carregarComentarios();
+      }).catch((error) => {
+        alert("Erro ao enviar comentário: " + error.message);
+      });
+    }
+
+    // Carregar comentários
+    function carregarComentarios() {
+      comentariosList.innerHTML = "Carregando comentários...";
+      db.collection("comentarios")
+        .orderBy("data", "desc")
+        .limit(20)
+        .get()
+        .then((snapshot) => {
+          comentariosList.innerHTML = "";
+          if (snapshot.empty) {
+            comentariosList.innerHTML = "<p>Nenhum comentário ainda. Seja o primeiro!</p>";
+            return;
+          }
+          snapshot.forEach(doc => {
+            const data = doc.data();
+            const div = document.createElement("div");
+            div.classList.add("comentario-item");
+            const dataStr = data.data ? data.data.toDate().toLocaleString() : "";
+            div.innerHTML = `<strong>${data.usuario}</strong> <em>${dataStr}</em><br>${data.texto}`;
+            comentariosList.appendChild(div);
+          });
+        }).catch((error) => {
+          comentariosList.innerHTML = "Erro ao carregar comentários.";
+          console.error(error);
+        });
+    }
+
+    // Controle da mensagem flutuante
+    function fecharAviso() {
+      document.getElementById("aviso-flutuante").style.display = "none";
+    }
+
+    // Música
     function iniciarMusica() {
       const audio = document.getElementById("bg-music");
       if (audio.paused) {
         audio.volume = 0.03;
         audio.play().catch((error) => {
-          console.log("Erro ao tocar o áudio:", error);
-        });
-      }
-    }
-
-    function fecharAviso() {
-      document.querySelector(".aviso-flutuante").style.display = "none";
-    }
-
-    setTimeout(() => {
-      document.body.classList.add('piscar');
-    }, 4000);
-  </script>
-
-  <script>
-    // Névoa animada com canvas
-    const canvas = document.getElementById('nevoa-canvas');
-    const ctx = canvas.getContext('2d');
-    let width, height;
-    
-    function ajustarTamanho() {
-      width = window.innerWidth;
-      height = window.innerHeight;
-      canvas.width = width;
-      canvas.height = height;
-    }
-    ajustarTamanho();
-    window.addEventListener('resize', ajustarTamanho);
-
-    const particulas = [];
-    const numParticulas = 120;
-
-    class Particula {
-      constructor() {
-        this.reset();
-      }
-      reset() {
-        this.x = Math.random() * width;
-        this.y = Math.random() * height;
-        this.radius
+          console.log("
