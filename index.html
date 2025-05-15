@@ -1,89 +1,151 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Roger Sombrio</title>
   <style>
     body {
       margin: 0;
-      padding: 0;
-      background: black;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: black;
       color: white;
-      font-family: 'Segoe UI', sans-serif;
+      overflow-x: hidden;
     }
 
     .fog {
       position: fixed;
       top: 0;
       left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: url('https://cdn.pixabay.com/photo/2017/11/06/09/53/fog-2920982_1280.jpg') repeat;
+      width: 100%;
+      height: 100%;
+      background: url('https://img.freepik.com/vetores-gratis/nevoa-fumaca-nuvens-brancas-de-smog-no-chao-neblina_107791-14683.jpg') repeat;
       background-size: cover;
-      opacity: 0.08;
+      opacity: 0.05;
       z-index: -1;
     }
 
     header {
-      padding: 2rem;
       text-align: center;
-      background: #111;
+      padding: 2rem;
     }
 
-    h1 {
-      color: #ff3355;
-      margin: 0;
-    }
-
-    .welcome-box {
-      background: #111;
+    .floating-message {
+      position: fixed;
+      top: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(255, 255, 255, 0.05);
+      color: white;
       padding: 1rem 2rem;
-      border: 2px solid #ff3355;
+      border: 1px solid red;
       border-radius: 10px;
-      display: inline-block;
-      margin: 2rem auto;
-      position: relative;
+      z-index: 10;
     }
 
-    .welcome-box .close {
+    .close-btn {
       position: absolute;
-      top: 5px;
-      right: 10px;
-      cursor: pointer;
-      color: #ff3355;
+      top: 0.2rem;
+      right: 0.5rem;
+      background: none;
+      color: red;
+      border: none;
       font-size: 1.2rem;
+      cursor: pointer;
     }
 
-    .section {
-      padding: 1rem 2rem;
-    }
-
-    .books {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    .book-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
       gap: 1rem;
       padding: 1rem;
     }
 
     .book {
-      background: #222;
-      border: 1px solid #444;
-      padding: 1rem;
-      text-align: center;
-      border-radius: 8px;
+      width: 200px;
+      border: 1px solid #333;
+      border-radius: 10px;
+      overflow: hidden;
+      background-color: #111;
     }
 
     .book img {
-      max-width: 100%;
-      border-radius: 4px;
+      width: 100%;
+      display: block;
     }
 
-    #comment-section {
-      padding: 2rem;
+    .book-title {
+      text-align: center;
+      padding: 0.5rem;
+    }
+
+    @media (max-width: 600px) {
+      .book {
+        width: 45%;
+      }
     }
   </style>
+  <script type="module">
+    // Firebase
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    import { getFirestore, collection, addDoc, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "SUA_API_KEY",
+      authDomain: "SEU_AUTH_DOMAIN",
+      projectId: "SEU_PROJECT_ID",
+      storageBucket: "SEU_BUCKET",
+      messagingSenderId: "SEU_MESSAGING_ID",
+      appId: "SEU_APP_ID"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    const loginBtn = document.getElementById('loginBtn');
+    const commentForm = document.getElementById('commentForm');
+    const commentList = document.getElementById('commentList');
+
+    loginBtn.addEventListener('click', async () => {
+      const provider = new GoogleAuthProvider();
+      await signInWithPopup(auth, provider);
+    });
+
+    onAuthStateChanged(auth, user => {
+      if (user) {
+        commentForm.style.display = 'block';
+        loginBtn.style.display = 'none';
+      }
+    });
+
+    commentForm.addEventListener('submit', async e => {
+      e.preventDefault();
+      const text = document.getElementById('commentText').value;
+      if (text.trim()) {
+        await addDoc(collection(db, 'comentarios'), {
+          nome: auth.currentUser.displayName,
+          texto: text,
+          data: new Date()
+        });
+        commentForm.reset();
+      }
+    });
+
+    const q = query(collection(db, 'comentarios'), orderBy('data', 'desc'));
+    onSnapshot(q, snapshot => {
+      commentList.innerHTML = '';
+      snapshot.forEach(doc => {
+        const data = doc.data();
+        const item = document.createElement('p');
+        item.textContent = `${data.nome}: ${data.texto}`;
+        commentList.appendChild(item);
+      });
+    });
+  </script>
 </head>
 
 <body>
@@ -93,40 +155,36 @@
     <h1>Roger Sombrio</h1>
   </header>
 
-  <div class="welcome-box" id="welcomeBox">
-    Seja bem-vindo ao mundo sombrio de Roger Sombrio
-    <span class="close" onclick="document.getElementById('welcomeBox').style.display='none'">×</span>
+  <div class="floating-message" id="floatingMessage">
+    Seja bem-vindo ao mundo sombrio de Roger Sombrio.
+    <button class="close-btn" onclick="document.getElementById('floatingMessage').style.display='none'">✖</button>
   </div>
 
-  <section class="section">
-    <h2>Meus Livros</h2>
-    <div class="books">
-      <div class="book">
-        <img src="https://m.media-amazon.com/images/I/81fWjNwXczL._SL1500_.jpg" alt="Livro 1">
-        <p>O Sussurro das Sombras</p>
-      </div>
-      <div class="book">
-        <img src="https://m.media-amazon.com/images/I/81Tkrk1L7pL._SL1500_.jpg" alt="Livro 2">
-        <p>O Abismo do Medo</p>
-      </div>
+  <audio autoplay loop>
+    <source src="sua-musica.mp3" type="audio/mpeg">
+    Seu navegador não suporta áudio.
+  </audio>
+
+  <section class="book-container">
+    <div class="book">
+      <img src="livro1.jpg" alt="Livro 1">
+      <div class="book-title">O Sussurro da Mata</div>
+    </div>
+    <div class="book">
+      <img src="livro2.jpg" alt="Livro 2">
+      <div class="book-title">A Névoa de Sangue</div>
     </div>
   </section>
 
-  <section class="section" id="comment-section">
+  <section style="padding: 1rem;">
     <h2>Comentários</h2>
-    <button id="login-btn">Entrar com Google</button>
-    <div id="comments"></div>
+    <button id="loginBtn">Entrar com Google</button>
+    <form id="commentForm" style="display:none">
+      <textarea id="commentText" rows="4" style="width:100%"></textarea><br>
+      <button type="submit">Comentar</button>
+    </form>
+    <div id="commentList"></div>
   </section>
-
-  <script>
-    // Música de fundo
-    const audio = new Audio('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3');
-    audio.loop = true;
-    audio.volume = 0.2;
-    window.addEventListener('load', () => {
-      audio.play().catch(() => console.log("Reprodução automática bloqueada."));
-    });
-  </script>
 </body>
 
 </html>
