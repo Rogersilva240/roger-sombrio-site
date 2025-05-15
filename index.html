@@ -2,7 +2,7 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Roger Sombrio</title>
   <style>
     body {
@@ -10,7 +10,6 @@
       background-color: #0d0d0d;
       color: #e0e0e0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      overflow-x: hidden;
     }
 
     .login-btn {
@@ -23,8 +22,6 @@
       font-weight: bold;
       margin: 20px auto;
       display: block;
-      z-index: 10;
-      position: relative;
     }
 
     .aviso-flutuante {
@@ -68,7 +65,7 @@
       text-align: center;
       border-bottom: 2px solid #8b0000;
       position: relative;
-      z-index: 5;
+      z-index: 10;
     }
 
     nav {
@@ -78,7 +75,7 @@
       padding: 10px;
       gap: 30px;
       position: relative;
-      z-index: 5;
+      z-index: 10;
     }
 
     nav a {
@@ -96,7 +93,7 @@
       max-width: 800px;
       margin: auto;
       position: relative;
-      z-index: 5;
+      z-index: 10;
     }
 
     footer {
@@ -106,35 +103,79 @@
       padding: 20px;
       border-top: 1px solid #8b0000;
       position: relative;
-      z-index: 5;
+      z-index: 10;
     }
 
-    /* Névoa feita via CSS - sem imagem */
-    .nevoa {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      pointer-events: none;
-      background:
-        radial-gradient(ellipse at center, rgba(255,255,255,0.04) 0%, transparent 70%),
-        radial-gradient(ellipse at center, rgba(255,255,255,0.03) 20%, transparent 80%),
-        radial-gradient(ellipse at center, rgba(255,255,255,0.02) 40%, transparent 90%);
-      animation: moverNevoa 80s linear infinite;
-      z-index: 1;
+    /* Livros - Responsivo */
+    .livros-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 30px;
     }
 
-    @keyframes moverNevoa {
-      0% {
-        background-position: 0 0, 200px 100px, 400px 200px;
-      }
-      100% {
-        background-position: 400px 100px, 600px 200px, 800px 300px;
-      }
+    .livro {
+      background-color: #111;
+      border: 1px solid #444;
+      padding: 20px;
+      width: 180px;
+      text-align: center;
+      border-radius: 8px;
+      flex: 1 1 180px;
+      max-width: 180px;
+      box-sizing: border-box;
+      transition: transform 0.3s;
     }
 
-    /* Sombra móvel */
+    .livro:hover {
+      transform: scale(1.05);
+    }
+
+    .livro img {
+      width: 100%;
+      border-radius: 5px;
+      margin-bottom: 15px;
+    }
+
+    .livro h3 {
+      color: #e74c3c;
+      margin: 0 0 10px 0;
+    }
+
+    .livro p {
+      color: #ccc;
+      font-size: 13px;
+      margin: 0 0 10px 0;
+      min-height: 52px; /* para manter altura uniforme */
+    }
+
+    .livro a {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 8px 16px;
+      background-color: #e74c3c;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 5px;
+      font-weight: bold;
+    }
+
+    .livro a:hover {
+      background-color: #c0392b;
+    }
+
+    /* Efeito de piscar fundo */
+    .piscar {
+      animation: piscarLuz 5s infinite;
+    }
+
+    @keyframes piscarLuz {
+      0%, 100% { background-color: #0d0d0d; }
+      50% { background-color: #1a1a1a; }
+    }
+
+    /* Sombra animada */
     .sombra {
       position: fixed;
       bottom: 0;
@@ -153,73 +194,33 @@
       100% { transform: translateX(0); }
     }
 
-    /* Luz piscando */
-    .piscar {
-      animation: piscarLuz 5s infinite;
+    /* Névoa canvas */
+    #nevoa-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+      z-index: 1;
+      mix-blend-mode: screen;
+      opacity: 0.15;
     }
 
-    @keyframes piscarLuz {
-      0%, 100% { background-color: #0d0d0d; }
-      50% { background-color: #1a1a1a; }
-    }
-
-    /* Estilo dos livros */
-    .livros-container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 30px;
-      margin-top: 30px;
-    }
-
-    .livro {
-      background-color: #111;
-      border: 1px solid #444;
-      padding: 20px;
-      width: 210px;
-      text-align: center;
-      border-radius: 8px;
-      position: relative;
-      z-index: 5;
-    }
-
-    .livro img {
-      width: 100%;
-      border-radius: 5px;
-      margin-bottom: 15px;
-    }
-
-    .livro h3 {
-      color: #e74c3c;
-      margin: 0 0 10px;
-    }
-
-    .livro p {
-      color: #ccc;
-      font-size: 13px;
-      margin: 0 0 10px;
-    }
-
-    .livro a {
-      display: inline-block;
-      padding: 8px 16px;
-      background-color: #e74c3c;
-      color: #fff;
-      text-decoration: none;
-      border-radius: 5px;
-      font-weight: bold;
-      transition: background-color 0.3s;
-    }
-
-    .livro a:hover {
-      background-color: #b03030;
+    /* Para mobile, livros ocuparem largura menor */
+    @media (max-width: 480px) {
+      .livro {
+        width: 140px;
+        max-width: 140px;
+        flex: 1 1 140px;
+      }
     }
   </style>
 </head>
 <body onclick="iniciarMusica()">
 
   <audio id="bg-music" loop autoplay>
-    <source src="musica.mp3" type="audio/mpeg">
+    <source src="musica.mp3" type="audio/mpeg" />
     Seu navegador não suporta áudio HTML5.
   </audio>
 
@@ -228,7 +229,8 @@
     ⚠️ Aviso: Este site possui músicas de terror ao fundo.
   </div>
 
-  <div class="nevoa"></div>
+  <!-- Névoa animada em canvas -->
+  <canvas id="nevoa-canvas"></canvas>
   <div class="sombra"></div>
 
   <header>
@@ -259,7 +261,6 @@
   <section id="obras">
     <h2>Obras</h2>
     <div class="livros-container">
-
       <div class="livro">
         <img src="https://rogersilva240.github.io/roger-sombrio-site/capa-sussurro.jpg" alt="Capa do livro O Sussurro da Névoa" />
         <h3>O Sussurro da Névoa</h3>
@@ -273,7 +274,6 @@
         <p>Seja bem-vindo(a) ao Contos Para Madrugada 2: terror, horror e contos sombrios de tirar o fôlego.</p>
         <a href="https://play.google.com/store/books/details/Roger_Silva_Contos_Para_Madrugada_2?id=OLoFEQAAQBAJ&hl=pt_BR" target="_blank" rel="noopener noreferrer">Comprar</a>
       </div>
-
     </div>
   </section>
 
@@ -341,5 +341,29 @@
     }, 4000);
   </script>
 
-</body>
-</html>
+  <script>
+    // Névoa animada com canvas
+    const canvas = document.getElementById('nevoa-canvas');
+    const ctx = canvas.getContext('2d');
+    let width, height;
+    
+    function ajustarTamanho() {
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = width;
+      canvas.height = height;
+    }
+    ajustarTamanho();
+    window.addEventListener('resize', ajustarTamanho);
+
+    const particulas = [];
+    const numParticulas = 120;
+
+    class Particula {
+      constructor() {
+        this.reset();
+      }
+      reset() {
+        this.x = Math.random() * width;
+        this.y = Math.random() * height;
+        this.radius
