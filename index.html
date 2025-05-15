@@ -2,20 +2,15 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Roger Sombrio</title>
-  <meta name="description" content="Site oficial do autor Roger Sombrio, especialista em terror psicológico e horror gore.">
-  <meta name="author" content="Roger Sombrio">
-  <meta property="og:title" content="Roger Sombrio - Terror e Horror Gore" />
-  <meta property="og:description" content="Entre na névoa e descubra os horrores de Roger Sombrio." />
-  <meta property="og:type" content="website" />
-  <meta property="og:image" content="https://rogersilva240.github.io/roger-sombrio-site/capa-sussurro.jpg" />
   <style>
     body {
       margin: 0;
       background-color: #0d0d0d;
       color: #e0e0e0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      overflow-x: hidden;
     }
 
     .login-btn {
@@ -28,6 +23,8 @@
       font-weight: bold;
       margin: 20px auto;
       display: block;
+      z-index: 10;
+      position: relative;
     }
 
     .aviso-flutuante {
@@ -70,6 +67,8 @@
       padding: 20px;
       text-align: center;
       border-bottom: 2px solid #8b0000;
+      position: relative;
+      z-index: 5;
     }
 
     nav {
@@ -78,6 +77,8 @@
       background-color: #111;
       padding: 10px;
       gap: 30px;
+      position: relative;
+      z-index: 5;
     }
 
     nav a {
@@ -94,6 +95,8 @@
       padding: 40px 20px;
       max-width: 800px;
       margin: auto;
+      position: relative;
+      z-index: 5;
     }
 
     footer {
@@ -102,50 +105,36 @@
       text-align: center;
       padding: 20px;
       border-top: 1px solid #8b0000;
+      position: relative;
+      z-index: 5;
     }
 
+    /* Névoa feita via CSS - sem imagem */
     .nevoa {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  background: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRfdSsyC33Noh_2wZu3aR-PFl-mqDoC3apnxA&s') repeat;
-  opacity: 0.04;
-  animation: moverNevoa 60s linear infinite;
-  z-index: 1;
-}
-
-
-    .caveiras {
       position: fixed;
       top: 0;
       left: 0;
-      width: 100%;
-      height: 100%;
-      background-image: url('https://i.ibb.co/ZYW3VTp/skull.png');
-      background-repeat: repeat;
-      background-size: 100px;
-      opacity: 0.02;
+      width: 100vw;
+      height: 100vh;
       pointer-events: none;
-      z-index: 2;
+      background:
+        radial-gradient(ellipse at center, rgba(255,255,255,0.04) 0%, transparent 70%),
+        radial-gradient(ellipse at center, rgba(255,255,255,0.03) 20%, transparent 80%),
+        radial-gradient(ellipse at center, rgba(255,255,255,0.02) 40%, transparent 90%);
+      animation: moverNevoa 80s linear infinite;
+      z-index: 1;
     }
 
     @keyframes moverNevoa {
-      0% { background-position: 0 0; }
-      100% { background-position: 1000px 0; }
+      0% {
+        background-position: 0 0, 200px 100px, 400px 200px;
+      }
+      100% {
+        background-position: 400px 100px, 600px 200px, 800px 300px;
+      }
     }
 
-    .piscar {
-      animation: piscarLuz 5s infinite;
-    }
-
-    @keyframes piscarLuz {
-      0%, 100% { background-color: #0d0d0d; }
-      50% { background-color: #1a1a1a; }
-    }
-
+    /* Sombra móvel */
     .sombra {
       position: fixed;
       bottom: 0;
@@ -163,11 +152,73 @@
       50% { transform: translateX(120vw); }
       100% { transform: translateX(0); }
     }
+
+    /* Luz piscando */
+    .piscar {
+      animation: piscarLuz 5s infinite;
+    }
+
+    @keyframes piscarLuz {
+      0%, 100% { background-color: #0d0d0d; }
+      50% { background-color: #1a1a1a; }
+    }
+
+    /* Estilo dos livros */
+    .livros-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 30px;
+      margin-top: 30px;
+    }
+
+    .livro {
+      background-color: #111;
+      border: 1px solid #444;
+      padding: 20px;
+      width: 210px;
+      text-align: center;
+      border-radius: 8px;
+      position: relative;
+      z-index: 5;
+    }
+
+    .livro img {
+      width: 100%;
+      border-radius: 5px;
+      margin-bottom: 15px;
+    }
+
+    .livro h3 {
+      color: #e74c3c;
+      margin: 0 0 10px;
+    }
+
+    .livro p {
+      color: #ccc;
+      font-size: 13px;
+      margin: 0 0 10px;
+    }
+
+    .livro a {
+      display: inline-block;
+      padding: 8px 16px;
+      background-color: #e74c3c;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 5px;
+      font-weight: bold;
+      transition: background-color 0.3s;
+    }
+
+    .livro a:hover {
+      background-color: #b03030;
+    }
   </style>
 </head>
 <body onclick="iniciarMusica()">
 
-  <audio id="bg-music" preload="auto" loop autoplay>
+  <audio id="bg-music" loop autoplay>
     <source src="musica.mp3" type="audio/mpeg">
     Seu navegador não suporta áudio HTML5.
   </audio>
@@ -178,7 +229,6 @@
   </div>
 
   <div class="nevoa"></div>
-  <div class="caveiras"></div>
   <div class="sombra"></div>
 
   <header>
@@ -207,8 +257,23 @@
   </section>
 
   <section id="obras">
-    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; margin-top: 30px;">
-      <!-- Cards dos livros (mantidos como estavam) -->
+    <h2>Obras</h2>
+    <div class="livros-container">
+
+      <div class="livro">
+        <img src="https://rogersilva240.github.io/roger-sombrio-site/capa-sussurro.jpg" alt="Capa do livro O Sussurro da Névoa" />
+        <h3>O Sussurro da Névoa</h3>
+        <p>Em um vilarejo coberto por névoa sinistra, Mateus enfrenta horrores indescritíveis.</p>
+        <a href="https://play.google.com/store/books/details/Roger_Silva_O_Sussurro_da_Névoa?id=kpNcEQAAQBAJ&hl=pt_BR" target="_blank" rel="noopener noreferrer">Comprar</a>
+      </div>
+
+      <div class="livro">
+        <img src="https://rogersilva240.github.io/roger-sombrio-site/capa-contos2.jpg" alt="Capa do livro Contos Para Madrugada 2" />
+        <h3>Contos Para Madrugada 2</h3>
+        <p>Seja bem-vindo(a) ao Contos Para Madrugada 2: terror, horror e contos sombrios de tirar o fôlego.</p>
+        <a href="https://play.google.com/store/books/details/Roger_Silva_Contos_Para_Madrugada_2?id=OLoFEQAAQBAJ&hl=pt_BR" target="_blank" rel="noopener noreferrer">Comprar</a>
+      </div>
+
     </div>
   </section>
 
