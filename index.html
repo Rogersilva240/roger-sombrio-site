@@ -1,190 +1,225 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Roger Sombrio</title>
   <style>
     body {
       margin: 0;
+      background-color: #0d0d0d;
+      color: #e0e0e0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: black;
+    }
+
+    .login-btn {
+      background-color: #4285F4;
       color: white;
-      overflow-x: hidden;
-    }
-
-    .fog {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: url('https://img.freepik.com/vetores-gratis/nevoa-fumaca-nuvens-brancas-de-smog-no-chao-neblina_107791-14683.jpg') repeat;
-      background-size: cover;
-      opacity: 0.05;
-      z-index: -1;
-    }
-
-    header {
-      text-align: center;
-      padding: 2rem;
-    }
-
-    .floating-message {
-      position: fixed;
-      top: 2rem;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(255, 255, 255, 0.05);
-      color: white;
-      padding: 1rem 2rem;
-      border: 1px solid red;
-      border-radius: 10px;
-      z-index: 10;
-    }
-
-    .close-btn {
-      position: absolute;
-      top: 0.2rem;
-      right: 0.5rem;
-      background: none;
-      color: red;
       border: none;
-      font-size: 1.2rem;
+      padding: 12px 20px;
+      border-radius: 6px;
       cursor: pointer;
-    }
-
-    .book-container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 1rem;
-      padding: 1rem;
-    }
-
-    .book {
-      width: 200px;
-      border: 1px solid #333;
-      border-radius: 10px;
-      overflow: hidden;
-      background-color: #111;
-    }
-
-    .book img {
-      width: 100%;
+      font-weight: bold;
+      margin: 20px auto;
       display: block;
     }
 
-    .book-title {
+    .aviso-flutuante {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #1a1a1a;
+      color: #ff4444;
+      padding: 25px 35px;
+      font-size: 18px;
+      font-weight: bold;
       text-align: center;
-      padding: 0.5rem;
+      border-radius: 12px;
+      box-shadow: 0 0 20px #8b0000;
+      z-index: 9999;
+      max-width: 90%;
+      animation: tremer 1.5s infinite alternate;
     }
 
-    @media (max-width: 600px) {
-      .book {
-        width: 45%;
-      }
+    @keyframes tremer {
+      from { transform: translate(-50%, -50%) rotate(-1deg); }
+      to   { transform: translate(-50%, -50%) rotate(1deg); }
+    }
+
+    .fechar {
+      background: none;
+      border: none;
+      color: #ff4444;
+      font-size: 20px;
+      font-weight: bold;
+      position: absolute;
+      top: 8px;
+      right: 12px;
+      cursor: pointer;
+    }
+
+    header {
+      background-color: #1a1a1a;
+      padding: 20px;
+      text-align: center;
+      border-bottom: 2px solid #8b0000;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      background-color: #111;
+      padding: 10px;
+      gap: 30px;
+    }
+
+    nav a {
+      color: #e0e0e0;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    nav a:hover {
+      color: #ff0000;
+    }
+
+    section {
+      padding: 40px 20px;
+      max-width: 800px;
+      margin: auto;
+    }
+
+    footer {
+      background-color: #111;
+      color: #888;
+      text-align: center;
+      padding: 20px;
+      border-top: 1px solid #8b0000;
     }
   </style>
+</head>
+<body onclick="iniciarMusica()">
+
+  <audio id="bg-music" loop>
+    <source src="musica.mp3" type="audio/mpeg">
+    Seu navegador não suporta áudio HTML5.
+  </audio>
+
+  <div class="aviso-flutuante">
+    <button class="fechar" onclick="fecharAviso()">X</button>
+    ⚠️ Aviso: Este site possui músicas de terror ao fundo.
+  </div>
+
+  <header>
+    <h1>Roger Sombrio</h1>
+    <p>Criador de universos sombrios e vozes que sussurram da escuridão</p>
+  </header>
+
+  <nav>
+    <a href="#inicio">Início</a>
+    <a href="#sobre">Sobre</a>
+    <a href="#obras">Obras</a>
+    <a href="#galeria">Galeria</a>
+    <a href="#contato">Contato</a>
+  </nav>
+
+  <!-- Botão de Login com Google -->
+  <button class="login-btn" onclick="loginComGoogle()">Entrar com Google</button>
+
+  <section id="inicio">
+    <h2>Bem-vindo ao mundo do autor: Roger Silva</h2>
+    <p>Entre na névoa e descubra os horrores que se escondem por trás do silêncio.</p>
+  </section>
+
+  <section id="sobre">
+    <h2>Sobre o Autor</h2>
+    <p>Roger Silva é um autor Brasileiro especializado em terror psicológico e horror gore.</p>
+  </section>
+
+  <section id="obras">
+    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; margin-top: 30px;">
+
+  <!-- Livro 1 -->
+  <div style="background-color: #111; border: 1px solid #444; padding: 20px; width: 220px; text-align: center; border-radius: 8px;">
+    <img src="https://rogersilva240.github.io/roger-sombrio-site/capa-sussurro.jpg" alt="Capa do livro O Sussurro da Névoa" style="width: 100%; border-radius: 5px; margin-bottom: 15px;" />
+    <h3 style="color: #e74c3c;">O Sussurro da Névoa</h3>
+    <p style="color: #ccc; font-size: 13px;">Em um vilarejo coberto por névoa sinistra, Mateus enfrenta horrores indescritíveis.</p>
+    <a href="https://play.google.com/store/books/details/Roger_Silva_O_Sussurro_da_Névoa?id=kpNcEQAAQBAJ&hl=pt_BR" target="_blank" style="display: inline-block; margin-top: 10px; padding: 8px 16px; background-color: #e74c3c; color: #fff; text-decoration: none; border-radius: 5px;">Comprar</a>
+  </div>
+
+  <!-- Livro 2 -->
+  <div style="background-color: #111; border: 1px solid #444; padding: 20px; width: 220px; text-align: center; border-radius: 8px;">
+    <img src="https://rogersilva240.github.io/roger-sombrio-site/capa-contos2.jpg
+" alt="Capa do livro Contos Para Madrugada 2" style="width: 100%; border-radius: 5px; margin-bottom: 15px;" />
+    <h3 style="color: #e74c3c;">Contos Para Madrugada 2</h3>
+    <p style="color: #ccc; font-size: 13px;">Seja bem-vindo(a) ao *Contos Para Madrugada 2*: terror, horror e contos sombrios de tirar o fôlego.</p>
+    <a href="https://play.google.com/store/books/details/Roger_Silva_Contos_Para_Madrugada_2?id=OLoFEQAAQBAJ&hl=pt_BR" target="_blank" style="display: inline-block; margin-top: 10px; padding: 8px 16px; background-color: #e74c3c; color: #fff; text-decoration: none; border-radius: 5px;">Comprar</a>
+  </div>
+
+</div>
+
+  </section>
+
+  <section id="galeria">
+    <h2>Galeria</h2>
+    <p>Imagens, capas e artes do universo sombrio de Roger Sombrio.</p>
+  </section>
+
+  <section id="contato">
+    <h2>Contato</h2>
+    <p>Deseja entrar em contato com o autor? Envie um e-mail para: <strong>rogersilva199918@gmail.com</strong></p>
+  </section>
+
+  <footer>
+    <p>© 2025 Roger Sombrio. Todos os direitos reservados.</p>
+  </footer>
+
+  <!-- Firebase e Auth -->
   <script type="module">
-    // Firebase
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
-    import { getFirestore, collection, addDoc, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+    import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
 
     const firebaseConfig = {
-      apiKey: "SUA_API_KEY",
-      authDomain: "SEU_AUTH_DOMAIN",
-      projectId: "SEU_PROJECT_ID",
-      storageBucket: "SEU_BUCKET",
-      messagingSenderId: "SEU_MESSAGING_ID",
-      appId: "SEU_APP_ID"
+      apiKey: "AIzaSyD5NWjj6UKI8nbbonQYrDObkpu9AXztB60",
+      authDomain: "roger-sombrio.firebaseapp.com",
+      projectId: "roger-sombrio",
+      storageBucket: "roger-sombrio.appspot.com",
+      messagingSenderId: "XXX",
+      appId: "XXX"
     };
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
-    const db = getFirestore(app);
+    const provider = new GoogleAuthProvider();
 
-    const loginBtn = document.getElementById('loginBtn');
-    const commentForm = document.getElementById('commentForm');
-    const commentList = document.getElementById('commentList');
-
-    loginBtn.addEventListener('click', async () => {
-      const provider = new GoogleAuthProvider();
-      await signInWithPopup(auth, provider);
-    });
-
-    onAuthStateChanged(auth, user => {
-      if (user) {
-        commentForm.style.display = 'block';
-        loginBtn.style.display = 'none';
-      }
-    });
-
-    commentForm.addEventListener('submit', async e => {
-      e.preventDefault();
-      const text = document.getElementById('commentText').value;
-      if (text.trim()) {
-        await addDoc(collection(db, 'comentarios'), {
-          nome: auth.currentUser.displayName,
-          texto: text,
-          data: new Date()
+    window.loginComGoogle = () => {
+      signInWithPopup(auth, provider)
+        .then((result) => {
+          const user = result.user;
+          alert(`Bem-vindo, ${user.displayName}!`);
+        })
+        .catch((error) => {
+          console.error("Erro no login:", error);
+          alert("Falha no login.");
         });
-        commentForm.reset();
-      }
-    });
-
-    const q = query(collection(db, 'comentarios'), orderBy('data', 'desc'));
-    onSnapshot(q, snapshot => {
-      commentList.innerHTML = '';
-      snapshot.forEach(doc => {
-        const data = doc.data();
-        const item = document.createElement('p');
-        item.textContent = ${data.nome}: ${data.texto};
-        commentList.appendChild(item);
-      });
-    });
+    };
   </script>
-</head>
 
-<body>
-  <div class="fog"></div>
+  <script>
+    function iniciarMusica() {
+      const audio = document.getElementById("bg-music");
+      if (audio.paused) {
+        audio.volume = 0.03;
+        audio.play().catch((error) => {
+          console.log("Erro ao tocar o áudio:", error);
+        });
+      }
+    }
 
-  <header>
-    <h1>Roger Sombrio</h1>
-  </header>
-
-  <div class="floating-message" id="floatingMessage">
-    Seja bem-vindo ao mundo sombrio de Roger Sombrio.
-    <button class="close-btn" onclick="document.getElementById('floatingMessage').style.display='none'">✖</button>
-  </div>
-
-  <audio autoplay loop>
-    <source src="sua-musica.mp3" type="audio/mpeg">
-    Seu navegador não suporta áudio.
-  </audio>
-
-  <section class="book-container">
-    <div class="book">
-      <img src="livro1.jpg" alt="Livro 1">
-      <div class="book-title">O Sussurro da Mata</div>
-    </div>
-    <div class="book">
-      <img src="livro2.jpg" alt="Livro 2">
-      <div class="book-title">A Névoa de Sangue</div>
-    </div>
-  </section>
-
-  <section style="padding: 1rem;">
-    <h2>Comentários</h2>
-    <button id="loginBtn">Entrar com Google</button>
-    <form id="commentForm" style="display:none">
-      <textarea id="commentText" rows="4" style="width:100%"></textarea><br>
-      <button type="submit">Comentar</button>
-    </form>
-    <div id="commentList"></div>
-  </section>
+    function fecharAviso() {
+      document.querySelector(".aviso-flutuante").style.display = "none";
+    }
+  </script>
 </body>
-
-</html>
+  </html>
