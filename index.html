@@ -170,6 +170,73 @@
   </section>
 
   <section id="contato">
+    <!-- Adicione dentro do <body>, logo abaixo da seção #contato --><section id="comentarios">
+  <h2>Comentários</h2>
+  <div id="comentarios-lista"></div>
+  <form id="comentario-form" style="margin-top: 20px;">
+    <textarea id="comentario-texto" placeholder="Escreva seu comentário..." rows="4" style="width:100%; padding: 10px;"></textarea>
+    <button type="submit" style="margin-top:10px; padding:10px 20px; background:#e74c3c; color:#fff; border:none; border-radius:5px; cursor:pointer;">Comentar</button>
+  </form>
+</section><script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+  import { getFirestore, collection, addDoc, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyD5NWjj6UKI8nbbonQYrDObkpu9AXztB60",
+    authDomain: "roger-sombrio.firebaseapp.com",
+    projectId: "roger-sombrio",
+    storageBucket: "roger-sombrio.firesbasestorage.app",
+    messagingSenderId: "815644528598",
+    appId: "1:815644528598:web:f3368ce3dc85179896de77",
+    measurementId: "G-D5RCJDHXEJ"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  const auth = getAuth();
+
+  const form = document.getElementById("comentario-form");
+  const lista = document.getElementById("comentarios-lista");
+  const textarea = document.getElementById("comentario-texto");
+
+  let usuarioAtual = null;
+
+  onAuthStateChanged(auth, (user) => {
+    usuarioAtual = user;
+  });
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const texto = textarea.value.trim();
+    if (!usuarioAtual || texto === "") return;
+
+    const nome = usuarioAtual.displayName;
+    const email = usuarioAtual.email;
+    const autorEmail = "rogersilva199918@gmail.com";
+
+    await addDoc(collection(db, "comentarios"), {
+      nome: nome,
+      email: email,
+      texto: texto,
+      timestamp: new Date()
+    });
+
+    textarea.value = "";
+  });
+
+  const q = query(collection(db, "comentarios"), orderBy("timestamp", "desc"));
+  onSnapshot(q, (snapshot) => {
+    lista.innerHTML = "";
+    snapshot.forEach((doc) => {
+      const c = doc.data();
+      const autor = c.email === "rogersilva199918@gmail.com" ? " <strong>(Autor)</strong>" : "";
+      const div = document.createElement("div");
+      div.innerHTML = `<p><strong>${c.nome}</strong>${autor}<br>${c.texto}</p><hr style='border:0.5px solid #333;'>`;
+      lista.appendChild(div);
+    });
+  });
+</script>
     <h2>Contato</h2>
     <p>Deseja entrar em contato com o autor? Envie um e-mail para: <strong>rogersilva199918@gmail.com</strong></p>
   </section>
