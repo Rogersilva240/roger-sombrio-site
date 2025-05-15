@@ -170,73 +170,15 @@
   </section>
 
   <section id="contato">
-    <!-- Adicione dentro do <body>, logo abaixo da seção #contato --><section id="comentarios">
+    
+ <section id="comentarios">
   <h2>Comentários</h2>
-  <div id="comentarios-lista"></div>
-  <form id="comentario-form" style="margin-top: 20px;">
-    <textarea id="comentario-texto" placeholder="Escreva seu comentário..." rows="4" style="width:100%; padding: 10px;"></textarea>
-    <button type="submit" style="margin-top:10px; padding:10px 20px; background:#e74c3c; color:#fff; border:none; border-radius:5px; cursor:pointer;">Comentar</button>
-  </form>
-</section><script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-  import { getFirestore, collection, addDoc, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
-  import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyD5NWjj6UKI8nbbonQYrDObkpu9AXztB60",
-    authDomain: "roger-sombrio.firebaseapp.com",
-    projectId: "roger-sombrio",
-    storageBucket: "roger-sombrio.firesbasestorage.app",
-    messagingSenderId: "815644528598",
-    appId: "1:815644528598:web:f3368ce3dc85179896de77",
-    measurementId: "G-D5RCJDHXEJ"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
-  const auth = getAuth();
-
-  const form = document.getElementById("comentario-form");
-  const lista = document.getElementById("comentarios-lista");
-  const textarea = document.getElementById("comentario-texto");
-
-  let usuarioAtual = null;
-
-  onAuthStateChanged(auth, (user) => {
-    usuarioAtual = user;
-  });
-
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const texto = textarea.value.trim();
-    if (!usuarioAtual || texto === "") return;
-
-    const nome = usuarioAtual.displayName;
-    const email = usuarioAtual.email;
-    const autorEmail = "rogersilva199918@gmail.com";
-
-    await addDoc(collection(db, "comentarios"), {
-      nome: nome,
-      email: email,
-      texto: texto,
-      timestamp: new Date()
-    });
-
-    textarea.value = "";
-  });
-
-  const q = query(collection(db, "comentarios"), orderBy("timestamp", "desc"));
-  onSnapshot(q, (snapshot) => {
-    lista.innerHTML = "";
-    snapshot.forEach((doc) => {
-      const c = doc.data();
-      const autor = c.email === "rogersilva199918@gmail.com" ? " <strong>(Autor)</strong>" : "";
-      const div = document.createElement("div");
-      div.innerHTML = `<p><strong>${c.nome}</strong>${autor}<br>${c.texto}</p><hr style='border:0.5px solid #333;'>`;
-      lista.appendChild(div);
-    });
-  });
-</script>
+  <div id="comment-form">
+    <textarea id="comment-text" placeholder="Escreva um comentário..."></textarea><br />
+    <button onclick="postarComentario()">Enviar</button>
+  </div>
+  <div id="comments-container"></div>
+</section>
     <h2>Contato</h2>
     <p>Deseja entrar em contato com o autor? Envie um e-mail para: <strong>rogersilva199918@gmail.com</strong></p>
   </section>
@@ -263,6 +205,104 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const provider = new GoogleAuthProvider();
+
+    <script type="module">
+  import {
+    getFirestore, collection, addDoc, onSnapshot, query, orderBy
+  } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+  import {
+    getAuth, onAuthStateChanged
+  } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+
+  const db = getFirestore();
+  const auth = getAuth();
+
+  let usuarioAtual = null;
+  let autorEmail = "rogersilva199918@gmail.com";
+
+  onAuthStateChanged(auth, (user) => {
+    usuarioAtual = user;
+    carregarComentarios();
+  });
+
+  window.postarComentario = async (respostaDe = null) => {
+    const texto = document.getElementById('comment-text').value.trim();
+    if (!texto || !usuarioAtual) return;
+
+    await addDoc(collection(db, "comentarios"), {
+      texto,
+      nome: usuarioAtual.displayName,
+      email: usuarioAtual.email,
+      timestamp: new Date(),
+      respostaDe
+    });
+
+    document.getElementById('comment-text').value = '';
+  };
+
+  function carregarComentarios() {
+    const q = query(collection(db, "comentarios"), orderBy("timestamp"));
+    onSnapshot(q, (snapshot) => {
+      const comentarios = [];
+      snapshot.forEach(doc => {
+        const data = doc.data();
+        comentarios.push({ id: doc.id, ...data });
+      });
+      exibirComentarios(comentarios);
+    });
+  }
+
+  function exibirComentarios(comentarios) {
+    const container = document.getElementById("comments-container");
+    container.innerHTML = '';
+
+    const renderComentario = (comentario, nivel = 0) => {
+      const replies = comentarios.filter(c => c.respostaDe === comentario.id);
+      const isAutor = comentario.email === autorEmail;
+      const div = document.createElement("div");
+      div.style.marginLeft = `${nivel * 30}px`;
+      div.style.marginTop = "10px";
+      div.style.borderLeft = "2px solid #444";
+      div.style.paddingLeft = "10px";
+
+      div.innerHTML = `
+        <strong>${comentario.nome}${isAutor ? " <span style='color:#ff4444;'>(Autor)</span>" : ""}</strong><br />
+        <span style="color:#ccc">${comentario.texto}</span><br />
+        <button onclick="responderComentario('${comentario.id}')" style="margin-top:5px;font-size:12px;">Responder</button>
+      `;
+
+      container.appendChild(div);
+      replies.forEach(r => renderComentario(r, nivel + 1));
+    };
+
+    const principais = comentarios.filter(c => !c.respostaDe);
+    principais.forEach(c => renderComentario(c));
+  }
+
+  window.responderComentario = (id) => {
+    const texto = prompt("Digite sua resposta:");
+    if (texto && usuarioAtual) {
+      postarComentario(id, texto);
+    }
+  };
+
+  window.postarComentario = async (respostaDe = null, textoManual = null) => {
+    const texto = textoManual || document.getElementById('comment-text').value.trim();
+    if (!texto || !usuarioAtual) return;
+
+    await addDoc(collection(db, "comentarios"), {
+      texto,
+      nome: usuarioAtual.displayName,
+      email: usuarioAtual.email,
+      timestamp: new Date(),
+      respostaDe
+    });
+
+    if (!textoManual) {
+      document.getElementById('comment-text').value = '';
+    }
+  };
+</script>
 
     // Função para login com Google
     window.loginComGoogle = () => {
