@@ -1,393 +1,39 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Roger Sombrio</title>
-  <style>
-    body {
-      margin: 0;
-      background-color: #0d0d0d;
-      color: #e0e0e0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-
-    .login-btn {
-      background-color: #4285F4;
-      color: white;
-      border: none;
-      padding: 12px 20px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-weight: bold;
-      margin: 20px auto;
-      display: block;
-      max-width: 300px;
-    }
-
-    .aviso-flutuante {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background-color: #1a1a1a;
-      color: #ff4444;
-      padding: 25px 35px;
-      font-size: 18px;
-      font-weight: bold;
-      text-align: center;
-      border-radius: 12px;
-      box-shadow: 0 0 20px #8b0000;
-      z-index: 9999;
-      max-width: 90%;
-      animation: tremer 1.5s infinite alternate;
-    }
-
-    @keyframes tremer {
-      from { transform: translate(-50%, -50%) rotate(-1deg); }
-      to   { transform: translate(-50%, -50%) rotate(1deg); }
-    }
-
-    .fechar {
-      background: none;
-      border: none;
-      color: #ff4444;
-      font-size: 20px;
-      font-weight: bold;
-      position: absolute;
-      top: 8px;
-      right: 12px;
-      cursor: pointer;
-    }
-
-    header {
-      background-color: #1a1a1a;
-      padding: 20px;
-      text-align: center;
-      border-bottom: 2px solid #8b0000;
-      position: relative;
-      z-index: 10;
-    }
-
-    nav {
-      display: flex;
-      justify-content: center;
-      background-color: #111;
-      padding: 10px;
-      gap: 30px;
-      position: relative;
-      z-index: 10;
-      flex-wrap: wrap;
-    }
-
-    nav a {
-      color: #e0e0e0;
-      text-decoration: none;
-      font-weight: bold;
-    }
-
-    nav a:hover {
-      color: #ff0000;
-    }
-
-    section {
-      padding: 40px 20px;
-      max-width: 800px;
-      margin: auto;
-      position: relative;
-      z-index: 10;
-    }
-
-    footer {
-      background-color: #111;
-      color: #888;
-      text-align: center;
-      padding: 20px;
-      border-top: 1px solid #8b0000;
-      position: relative;
-      z-index: 10;
-    }
-
-    /* Efeito de névoa sem imagem de fundo */
-    .nevoa {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      pointer-events: none;
-      background: radial-gradient(circle, rgba(255,255,255,0.03) 10%, transparent 60%), 
-                  radial-gradient(circle, rgba(255,255,255,0.02) 15%, transparent 70%);
-      background-repeat: repeat;
-      background-size: 200px 200px;
-      animation: moverNevoa 60s linear infinite;
-      z-index: 0;
-    }
-
-    @keyframes moverNevoa {
-      0% { background-position: 0 0, 0 0; }
-      100% { background-position: 1000px 0, 500px 0; }
-    }
-
-    .piscar {
-      animation: piscarLuz 5s infinite;
-    }
-
-    @keyframes piscarLuz {
-      0%, 100% { background-color: #0d0d0d; }
-      50% { background-color: #1a1a1a; }
-    }
-
-    .sombra {
-      position: fixed;
-      bottom: 0;
-      left: -100px;
-      width: 200px;
-      height: 200px;
-      background: radial-gradient(circle, rgba(0,0,0,0.6) 40%, transparent 70%);
-      border-radius: 50%;
-      animation: moverSombra 12s infinite ease-in-out;
-      z-index: 0;
-    }
-
-    @keyframes moverSombra {
-      0% { transform: translateX(0); }
-      50% { transform: translateX(120vw); }
-      100% { transform: translateX(0); }
-    }
-
-    /* Layout livros - responsivo */
-    .livros-container {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 20px;
-      margin-top: 30px;
-    }
-
-    .livro {
-      background-color: #111;
-      border: 1px solid #444;
-      padding: 20px;
-      width: 48%; /* Dois por linha no celular */
-      max-width: 210px;
-      text-align: center;
-      border-radius: 8px;
-      box-sizing: border-box;
-      transition: transform 0.3s ease;
-    }
-
-    .livro:hover {
-      transform: scale(1.05);
-      border-color: #e74c3c;
-    }
-
-    .livro img {
-      width: 100%;
-      border-radius: 5px;
-      margin-bottom: 15px;
-    }
-
-    .livro h3 {
-      color: #e74c3c;
-      margin: 0 0 10px;
-    }
-
-    .livro p {
-      color: #ccc;
-      font-size: 13px;
-    }
-
-    .comprar-btn {
-      display: inline-block;
-      margin-top: 10px;
-      padding: 8px 16px;
-      background-color: #e74c3c;
-      color: #fff;
-      text-decoration: none;
-      border-radius: 5px;
-      font-weight: bold;
-    }
-
-    @media (min-width: 600px) {
-      .livro {
-        width: 210px; /* Lado a lado no desktop */
-      }
-    }
-
-    /* Comentários */
-    #comentarios {
-      background-color: #111;
-      border: 1px solid #444;
-      border-radius: 8px;
-      padding: 20px;
-      max-width: 800px;
-      margin: 40px auto;
-      color: #ccc;
-      position: relative;
-      z-index: 10;
-    }
-
-    #comentarios h2 {
-      color: #e74c3c;
-      margin-bottom: 20px;
-    }
-
-    #comentarios-list {
-      max-height: 300px;
-      overflow-y: auto;
-      margin-bottom: 15px;
-      border-top: 1px solid #444;
-      padding-top: 10px;
-    }
-
-    .comentario-item {
-      border-bottom: 1px solid #444;
-      padding: 8px 0;
-    }
-
-    .comentario-item:last-child {
-      border-bottom: none;
-    }
-
-    #novo-comentario {
-      display: flex;
-      gap: 10px;
-    }
-
-    #novo-comentario textarea {
-      flex: 1;
-      padding: 10px;
-      border-radius: 6px;
-      border: 1px solid #444;
-      background-color: #222;
-      color: #eee;
-      resize: vertical;
-      font-family: inherit;
-      font-size: 14px;
-    }
-
-    #novo-comentario button {
-      background-color: #e74c3c;
-      border: none;
-      padding: 10px 16px;
-      border-radius: 6px;
-      color: white;
-      font-weight: bold;
-      cursor: pointer;
-      max-width: 120px;
-    }
-  </style>
-</head>
-<body onclick="iniciarMusica()">
-
-  <audio id="bg-music" loop autoplay>
-    <source src="musica.mp3" type="audio/mpeg" />
-    Seu navegador não suporta áudio HTML5.
-  </audio>
-
-  <div class="aviso-flutuante" id="aviso-flutuante">
-    <button class="fechar" onclick="fecharAviso(event)">X</button>
-    ⚠️ Aviso: Este site possui músicas de terror ao fundo.
-  </div>
-
-  <div class="nevoa"></div>
-  <div class="sombra"></div>
-
-  <header>
-    <h1>Roger Sombrio</h1>
-    <p>Criador de universos sombrios e vozes que sussurram da escuridão</p>
-  </header>
-
-  <nav>
-    <a href="#inicio">Início</a>
-    <a href="#sobre">Sobre</a>
-    <a href="#obras">Obras</a>
-    <a href="#galeria">Galeria</a>
-    <a href="#contato">Contato</a>
-  </nav>
-
-  <button class="login-btn" onclick="loginComGoogle()">Entrar com Google</button>
-
-  <section id="inicio">
-    <h2>Bem-vindo ao mundo do autor: Roger Silva</h2>
-    <p>Entre na névoa e descubra os horrores que se escondem por trás do silêncio.</p>
-  </section>
-
-  <section id="sobre">
-    <h2>Sobre o Autor</h2>
-    <p>Roger Silva é um autor Brasileiro especializado em terror psicológico e horror gore.</p>
-  </section>
-
-  <section id="obras">
-    <h2>Obras</h2>
-    <div class="livros-container">
-      <div class="livro">
-        <img src="https://rogersilva240.github.io/roger-sombrio-site/capa-sussurro.jpg" alt="Capa do livro O Sussurro da Névoa" />
-        <h3>O Sussurro da Névoa</h3>
-        <p>Em um vilarejo coberto por névoa sinistra, Mateus enfrenta horrores indescritíveis.</p>
-        <a href="https://play.google.com/store/books/details/Roger_Silva_O_Sussurro_da_Névoa?id=kpNcEQAAQBAJ&hl=pt_BR" target="_blank" class="comprar-btn">Comprar</a>
-      </div>
-
-      <div class="livro">
-        <img src="https://rogersilva240.github.io/roger-sombrio-site/capa-contos2.jpg" alt="Capa do livro Contos Para Madrugada 2" />
-        <h3>Contos Para Madrugada 2</h3>
-        <p>Seja bem-vindo(a) ao Contos Para Madrugada 2: terror, horror e contos sombrios de tirar o fôlego.</p>
-        <a href="https://play.google.com/store/books/details/Roger_Silva_Contos_Para_Madrugada_2?id=OLoFEQAAQBAJ&hl=pt_BR" target="_blank" class="comprar-btn">Comprar</a>
-      </div>
-    </div>
-  </section>
-
-  <section id="galeria">
-    <h2>Galeria</h2>
-    <p>Imagens, capas e artes do universo sombrio de Roger Sombrio.</p>
-  </section>
-
-  <section id="contato">
-    <h2>Contato</h2>
-    <p>Deseja entrar em contato com o autor? Envie um e-mail para: <strong>rogersilva199918@gmail.com</strong></p>
-  </section>
-
-  <!-- Sistema de Comentários -->
-  <section id="comentarios">
-    <h2>Comentários</h2>
-    <div id="comentarios-list"></div>
-
-    <div id="novo-comentario" style="display:none;">
-      <textarea id="comentario-texto" placeholder="Escreva seu comentário aqui..." rows="3"></textarea>
-      <button onclick="enviarComentario()">Enviar</button>
-    </div>
-
-    <p id="login-msg">Para comentar, faça login com Google.</p>
-  </section>
-
-  <footer>
-    <p>© 2025 Roger Sombrio. Todos os direitos reservados.</p>
-  </footer>
-
-  <!-- Firebase -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-    import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
-    import { getFirestore, collection, addDoc, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
+    import {
+      getAuth,
+      signInWithPopup,
+      GoogleAuthProvider,
+      onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+    import {
+      getFirestore,
+      collection,
+      addDoc,
+      query,
+      orderBy,
+      onSnapshot
+    } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
 
     const firebaseConfig = {
-      apiKey: "AIzaSyD5NWjj6UKI8nbbonQYrDObkpu9AXztB60",
-      authDomain: "roger-sombrio.firebaseapp.com",
+      apiKey: "SUA_API_KEY",
+      authDomain: "SEU_DOMINIO.firebaseapp.com",
       projectId: "roger-sombrio",
       storageBucket: "roger-sombrio.appspot.com",
-      messagingSenderId: "XXX",
-      appId: "XXX"
+      messagingSenderId: "SEU_MESSAGING_ID",
+      appId: "SEU_APP_ID"
     };
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
     const provider = new GoogleAuthProvider();
-
-    const comentariosList = document.getElementById('comentarios-list');
-    const novoComentarioDiv = document.getElementById('novo-comentario');
-    const loginMsg = document.getElementById('login-msg');
 
     window.loginComGoogle = () => {
       signInWithPopup(auth, provider)
@@ -401,7 +47,123 @@
         });
     };
 
+    const loginMsg = document.getElementById("login-msg");
+    const novoComentarioDiv = document.getElementById("novo-comentario");
+    const comentariosList = document.getElementById("comentarios-list");
+
     onAuthStateChanged(auth, (user) => {
       if (user) {
         loginMsg.style.display = 'none';
-        novoComentarioDiv.style
+        novoComentarioDiv.style.display = 'flex';
+      } else {
+        loginMsg.style.display = 'block';
+        novoComentarioDiv.style.display = 'none';
+      }
+    });
+
+    window.enviarComentario = async () => {
+      const texto = document.getElementById('comentario-texto').value.trim();
+      const user = auth.currentUser;
+
+      if (!user) {
+        alert('Você precisa estar logado para comentar.');
+        return;
+      }
+
+      if (texto.length === 0) {
+        alert('Digite um comentário antes de enviar.');
+        return;
+      }
+
+      try {
+        await addDoc(collection(db, 'comentarios'), {
+          uid: user.uid,
+          nome: user.displayName,
+          texto: texto,
+          data: new Date()
+        });
+        document.getElementById('comentario-texto').value = '';
+      } catch (error) {
+        console.error('Erro ao enviar comentário:', error);
+        alert('Erro ao enviar comentário.');
+      }
+    };
+
+    const q = query(collection(db, 'comentarios'), orderBy('data', 'desc'));
+    onSnapshot(q, (snapshot) => {
+      comentariosList.innerHTML = '';
+      snapshot.forEach((doc) => {
+        const c = doc.data();
+        const div = document.createElement('div');
+        div.classList.add('comentario-item');
+        div.innerHTML = `<strong>${c.nome}</strong> <small>${new Date(c.data.seconds * 1000).toLocaleString()}</small><p>${c.texto}</p>`;
+        comentariosList.appendChild(div);
+      });
+    });
+  </script>
+  <style>
+    body {
+      background: black;
+      color: white;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    .comentario-item {
+      background: #111;
+      padding: 10px;
+      margin: 5px 0;
+      border-radius: 8px;
+    }
+    #novo-comentario {
+      margin-top: 20px;
+      display: none;
+    }
+    .fechar {
+      cursor: pointer;
+      font-size: 24px;
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      color: red;
+    }
+    .mensagem-flutuante {
+      background: rgba(0,0,0,0.9);
+      color: white;
+      padding: 20px;
+      border: 2px solid red;
+      border-radius: 12px;
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1000;
+    }
+  </style>
+</head>
+<body>
+  <audio autoplay loop>
+    <source src="musica.mp3" type="audio/mpeg" />
+    Seu navegador não suporta áudio.
+  </audio>
+
+  <div class="mensagem-flutuante" id="msg">
+    <span class="fechar" onclick="document.getElementById('msg').style.display='none'">&times;</span>
+    Seja bem-vindo ao mundo sombrio de Roger Sombrio.
+  </div>
+
+  <h1>Roger Sombrio</h1>
+
+  <div id="login-msg">
+    <button onclick="loginComGoogle()">Entrar com Google</button>
+  </div>
+
+  <div id="novo-comentario">
+    <textarea id="comentario-texto" rows="3" cols="30" placeholder="Escreva um comentário..."></textarea><br />
+    <button onclick="enviarComentario()">Enviar</button>
+  </div>
+
+  <h2>Comentários</h2>
+  <div id="comentarios-list"></div>
+</body>
+</html>
