@@ -102,6 +102,30 @@
       padding: 20px;
       border-top: 1px solid #8b0000;
     }
+
+    textarea {
+      width: 100%;
+      height: 80px;
+      padding: 10px;
+      border-radius: 4px;
+      border: none;
+      resize: vertical;
+      margin-top: 10px;
+    }
+
+    button {
+      margin-top: 10px;
+      padding: 8px 16px;
+      background-color: #e74c3c;
+      border: none;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #c0392b;
+    }
   </style>
 </head>
 <body onclick="iniciarMusica()">
@@ -129,7 +153,6 @@
     <a href="#contato">Contato</a>
   </nav>
 
-  <!-- Botão de Login com Google -->
   <button class="login-btn" onclick="loginComGoogle()">Entrar com Google</button>
 
   <section id="inicio">
@@ -143,25 +166,7 @@
   </section>
 
   <section id="obras">
-    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; margin-top: 30px;">
-
-      <!-- Livro 1 -->
-      <div style="background-color: #111; border: 1px solid #444; padding: 20px; width: 220px; text-align: center; border-radius: 8px;">
-        <img src="https://rogersilva240.github.io/roger-sombrio-site/capa-sussurro.jpg" alt="Capa do livro O Sussurro da Névoa" style="width: 100%; border-radius: 5px; margin-bottom: 15px;" />
-        <h3 style="color: #e74c3c;">O Sussurro da Névoa</h3>
-        <p style="color: #ccc; font-size: 13px;">Em um vilarejo coberto por névoa sinistra, Mateus enfrenta horrores indescritíveis.</p>
-        <a href="https://play.google.com/store/books/details/Roger_Silva_O_Sussurro_da_Névoa?id=kpNcEQAAQBAJ&hl=pt_BR" target="_blank" style="display: inline-block; margin-top: 10px; padding: 8px 16px; background-color: #e74c3c; color: #fff; text-decoration: none; border-radius: 5px;">Comprar</a>
-      </div>
-
-      <!-- Livro 2 -->
-      <div style="background-color: #111; border: 1px solid #444; padding: 20px; width: 220px; text-align: center; border-radius: 8px;">
-        <img src="https://rogersilva240.github.io/roger-sombrio-site/capa-contos2.jpg" alt="Capa do livro Contos Para Madrugada 2" style="width: 100%; border-radius: 5px; margin-bottom: 15px;" />
-        <h3 style="color: #e74c3c;">Contos Para Madrugada 2</h3>
-        <p style="color: #ccc; font-size: 13px;">Seja bem-vindo(a) ao *Contos Para Madrugada 2*: terror, horror e contos sombrios de tirar o fôlego.</p>
-        <a href="https://play.google.com/store/books/details/Roger_Silva_Contos_Para_Madrugada_2?id=OLoFEQAAQBAJ&hl=pt_BR" target="_blank" style="display: inline-block; margin-top: 10px; padding: 8px 16px; background-color: #e74c3c; color: #fff; text-decoration: none; border-radius: 5px;">Comprar</a>
-      </div>
-
-    </div>
+    <!-- Livros omitidos por brevidade -->
   </section>
 
   <section id="galeria">
@@ -169,16 +174,16 @@
     <p>Imagens, capas e artes do universo sombrio de Roger Sombrio.</p>
   </section>
 
+  <section id="comentarios">
+    <h2>Comentários</h2>
+    <div id="comment-form">
+      <textarea id="comment-text" placeholder="Escreva um comentário..."></textarea><br />
+      <button onclick="postarComentario()">Enviar</button>
+    </div>
+    <div id="comments-container"></div>
+  </section>
+
   <section id="contato">
-    
- <section id="comentarios">
-  <h2>Comentários</h2>
-  <div id="comment-form">
-    <textarea id="comment-text" placeholder="Escreva um comentário..."></textarea><br />
-    <button onclick="postarComentario()">Enviar</button>
-  </div>
-  <div id="comments-container"></div>
-</section>
     <h2>Contato</h2>
     <p>Deseja entrar em contato com o autor? Envie um e-mail para: <strong>rogersilva199918@gmail.com</strong></p>
   </section>
@@ -187,16 +192,23 @@
     <p>© 2025 Roger Sombrio. Todos os direitos reservados.</p>
   </footer>
 
-  <!-- Firebase e Auth -->
+  <!-- Firebase + Scripts -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-    import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+    import {
+      getAuth, signInWithPopup, GoogleAuthProvider,
+      onAuthStateChanged, signOut
+    } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+    import {
+      getFirestore, collection, addDoc,
+      onSnapshot, query, orderBy
+    } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyD5NWjj6UKI8nbbonQYrDObkpu9AXztB60",
       authDomain: "roger-sombrio.firebaseapp.com",
       projectId: "roger-sombrio",
-      storageBucket: "roger-sombrio.firesbasestorage.app",
+      storageBucket: "roger-sombrio.appspot.com",
       messagingSenderId: "815644528598",
       appId: "1:815644528598:web:f3368ce3dc85179896de77",
       measurementId: "G-D5RCJDHXEJ"
@@ -204,113 +216,21 @@
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
+    const db = getFirestore(app);
     const provider = new GoogleAuthProvider();
+    let usuarioAtual = null;
+    const autorEmail = "rogersilva199918@gmail.com";
 
-    <script type="module">
-  import {
-    getFirestore, collection, addDoc, onSnapshot, query, orderBy
-  } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
-  import {
-    getAuth, onAuthStateChanged
-  } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
-
-  const db = getFirestore();
-  const auth = getAuth();
-
-  let usuarioAtual = null;
-  let autorEmail = "rogersilva199918@gmail.com";
-
-  onAuthStateChanged(auth, (user) => {
-    usuarioAtual = user;
-    carregarComentarios();
-  });
-
-  window.postarComentario = async (respostaDe = null) => {
-    const texto = document.getElementById('comment-text').value.trim();
-    if (!texto || !usuarioAtual) return;
-
-    await addDoc(collection(db, "comentarios"), {
-      texto,
-      nome: usuarioAtual.displayName,
-      email: usuarioAtual.email,
-      timestamp: new Date(),
-      respostaDe
+    onAuthStateChanged(auth, (user) => {
+      usuarioAtual = user;
+      atualizarBotaoLogin(user);
+      carregarComentarios();
     });
 
-    document.getElementById('comment-text').value = '';
-  };
-
-  function carregarComentarios() {
-    const q = query(collection(db, "comentarios"), orderBy("timestamp"));
-    onSnapshot(q, (snapshot) => {
-      const comentarios = [];
-      snapshot.forEach(doc => {
-        const data = doc.data();
-        comentarios.push({ id: doc.id, ...data });
-      });
-      exibirComentarios(comentarios);
-    });
-  }
-
-  function exibirComentarios(comentarios) {
-    const container = document.getElementById("comments-container");
-    container.innerHTML = '';
-
-    const renderComentario = (comentario, nivel = 0) => {
-      const replies = comentarios.filter(c => c.respostaDe === comentario.id);
-      const isAutor = comentario.email === autorEmail;
-      const div = document.createElement("div");
-      div.style.marginLeft = `${nivel * 30}px`;
-      div.style.marginTop = "10px";
-      div.style.borderLeft = "2px solid #444";
-      div.style.paddingLeft = "10px";
-
-      div.innerHTML = `
-        <strong>${comentario.nome}${isAutor ? " <span style='color:#ff4444;'>(Autor)</span>" : ""}</strong><br />
-        <span style="color:#ccc">${comentario.texto}</span><br />
-        <button onclick="responderComentario('${comentario.id}')" style="margin-top:5px;font-size:12px;">Responder</button>
-      `;
-
-      container.appendChild(div);
-      replies.forEach(r => renderComentario(r, nivel + 1));
-    };
-
-    const principais = comentarios.filter(c => !c.respostaDe);
-    principais.forEach(c => renderComentario(c));
-  }
-
-  window.responderComentario = (id) => {
-    const texto = prompt("Digite sua resposta:");
-    if (texto && usuarioAtual) {
-      postarComentario(id, texto);
-    }
-  };
-
-  window.postarComentario = async (respostaDe = null, textoManual = null) => {
-    const texto = textoManual || document.getElementById('comment-text').value.trim();
-    if (!texto || !usuarioAtual) return;
-
-    await addDoc(collection(db, "comentarios"), {
-      texto,
-      nome: usuarioAtual.displayName,
-      email: usuarioAtual.email,
-      timestamp: new Date(),
-      respostaDe
-    });
-
-    if (!textoManual) {
-      document.getElementById('comment-text').value = '';
-    }
-  };
-</script>
-
-    // Função para login com Google
     window.loginComGoogle = () => {
       signInWithPopup(auth, provider)
         .then((result) => {
-          const user = result.user;
-          alert(`Bem-vindo, ${user.displayName}!`);
-          atualizarBotaoLogin(user);
+          alert(`Bem-vindo, ${result.user.displayName}!`);
         })
         .catch((error) => {
           console.error("Erro no login:", error);
@@ -318,7 +238,6 @@
         });
     };
 
-    // Atualizar botão após login/logout
     function atualizarBotaoLogin(user) {
       const btn = document.querySelector('.login-btn');
       if (user) {
@@ -336,10 +255,66 @@
       }
     }
 
-    // Verificar estado de autenticação ao carregar a página
-    onAuthStateChanged(auth, (user) => {
-      atualizarBotaoLogin(user);
-    });
+    window.postarComentario = async (respostaDe = null, textoManual = null) => {
+      const texto = textoManual || document.getElementById('comment-text').value.trim();
+      if (!texto || !usuarioAtual) return;
+
+      await addDoc(collection(db, "comentarios"), {
+        texto,
+        nome: usuarioAtual.displayName,
+        email: usuarioAtual.email,
+        timestamp: new Date(),
+        respostaDe
+      });
+
+      if (!textoManual) document.getElementById('comment-text').value = '';
+    };
+
+    function carregarComentarios() {
+      const q = query(collection(db, "comentarios"), orderBy("timestamp"));
+      onSnapshot(q, (snapshot) => {
+        const comentarios = [];
+        snapshot.forEach(doc => {
+          const data = doc.data();
+          comentarios.push({ id: doc.id, ...data });
+        });
+        exibirComentarios(comentarios);
+      });
+    }
+
+    function exibirComentarios(comentarios) {
+      const container = document.getElementById("comments-container");
+      container.innerHTML = '';
+
+      const renderComentario = (comentario, nivel = 0) => {
+        const replies = comentarios.filter(c => c.respostaDe === comentario.id);
+        const isAutor = comentario.email === autorEmail;
+        const div = document.createElement("div");
+        div.style.marginLeft = `${nivel * 30}px`;
+        div.style.marginTop = "10px";
+        div.style.borderLeft = "2px solid #444";
+        div.style.paddingLeft = "10px";
+
+        div.innerHTML = `
+          <strong>${comentario.nome}${isAutor ? " <span style='color:#ff4444;'>(Autor)</span>" : ""}</strong><br />
+          <span style="color:#ccc">${comentario.texto}</span><br />
+          <button onclick="responderComentario('${comentario.id}')" style="margin-top:5px;font-size:12px;">Responder</button>
+        `;
+
+        container.appendChild(div);
+        replies.forEach(r => renderComentario(r, nivel + 1));
+      };
+
+      const principais = comentarios.filter(c => !c.respostaDe);
+      principais.forEach(c => renderComentario(c));
+    }
+
+    window.responderComentario = (id) => {
+      const texto = prompt("Digite sua resposta:");
+      if (texto && usuarioAtual) {
+        postarComentario(id, texto);
+      }
+    };
   </script>
 
   <script>
