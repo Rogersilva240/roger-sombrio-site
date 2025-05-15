@@ -1,169 +1,132 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Roger Sombrio</title>
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
-    import {
-      getAuth,
-      signInWithPopup,
-      GoogleAuthProvider,
-      onAuthStateChanged
-    } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
-    import {
-      getFirestore,
-      collection,
-      addDoc,
-      query,
-      orderBy,
-      onSnapshot
-    } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js";
-
-    const firebaseConfig = {
-      apiKey: "SUA_API_KEY",
-      authDomain: "SEU_DOMINIO.firebaseapp.com",
-      projectId: "roger-sombrio",
-      storageBucket: "roger-sombrio.appspot.com",
-      messagingSenderId: "SEU_MESSAGING_ID",
-      appId: "SEU_APP_ID"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-    const provider = new GoogleAuthProvider();
-
-    window.loginComGoogle = () => {
-      signInWithPopup(auth, provider)
-        .then((result) => {
-          const user = result.user;
-          alert(`Bem-vindo, ${user.displayName}!`);
-        })
-        .catch((error) => {
-          console.error("Erro no login:", error);
-          alert("Falha no login.");
-        });
-    };
-
-    const loginMsg = document.getElementById("login-msg");
-    const novoComentarioDiv = document.getElementById("novo-comentario");
-    const comentariosList = document.getElementById("comentarios-list");
-
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        loginMsg.style.display = 'none';
-        novoComentarioDiv.style.display = 'flex';
-      } else {
-        loginMsg.style.display = 'block';
-        novoComentarioDiv.style.display = 'none';
-      }
-    });
-
-    window.enviarComentario = async () => {
-      const texto = document.getElementById('comentario-texto').value.trim();
-      const user = auth.currentUser;
-
-      if (!user) {
-        alert('Você precisa estar logado para comentar.');
-        return;
-      }
-
-      if (texto.length === 0) {
-        alert('Digite um comentário antes de enviar.');
-        return;
-      }
-
-      try {
-        await addDoc(collection(db, 'comentarios'), {
-          uid: user.uid,
-          nome: user.displayName,
-          texto: texto,
-          data: new Date()
-        });
-        document.getElementById('comentario-texto').value = '';
-      } catch (error) {
-        console.error('Erro ao enviar comentário:', error);
-        alert('Erro ao enviar comentário.');
-      }
-    };
-
-    const q = query(collection(db, 'comentarios'), orderBy('data', 'desc'));
-    onSnapshot(q, (snapshot) => {
-      comentariosList.innerHTML = '';
-      snapshot.forEach((doc) => {
-        const c = doc.data();
-        const div = document.createElement('div');
-        div.classList.add('comentario-item');
-        div.innerHTML = `<strong>${c.nome}</strong> <small>${new Date(c.data.seconds * 1000).toLocaleString()}</small><p>${c.texto}</p>`;
-        comentariosList.appendChild(div);
-      });
-    });
-  </script>
   <style>
     body {
-      background: black;
-      color: white;
-      font-family: Arial, sans-serif;
       margin: 0;
       padding: 0;
+      background: black;
+      color: white;
+      font-family: 'Segoe UI', sans-serif;
     }
-    .comentario-item {
+
+    .fog {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: url('https://cdn.pixabay.com/photo/2017/11/06/09/53/fog-2920982_1280.jpg') repeat;
+      background-size: cover;
+      opacity: 0.08;
+      z-index: -1;
+    }
+
+    header {
+      padding: 2rem;
+      text-align: center;
       background: #111;
-      padding: 10px;
-      margin: 5px 0;
+    }
+
+    h1 {
+      color: #ff3355;
+      margin: 0;
+    }
+
+    .welcome-box {
+      background: #111;
+      padding: 1rem 2rem;
+      border: 2px solid #ff3355;
+      border-radius: 10px;
+      display: inline-block;
+      margin: 2rem auto;
+      position: relative;
+    }
+
+    .welcome-box .close {
+      position: absolute;
+      top: 5px;
+      right: 10px;
+      cursor: pointer;
+      color: #ff3355;
+      font-size: 1.2rem;
+    }
+
+    .section {
+      padding: 1rem 2rem;
+    }
+
+    .books {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 1rem;
+      padding: 1rem;
+    }
+
+    .book {
+      background: #222;
+      border: 1px solid #444;
+      padding: 1rem;
+      text-align: center;
       border-radius: 8px;
     }
-    #novo-comentario {
-      margin-top: 20px;
-      display: none;
+
+    .book img {
+      max-width: 100%;
+      border-radius: 4px;
     }
-    .fechar {
-      cursor: pointer;
-      font-size: 24px;
-      position: absolute;
-      top: 10px;
-      right: 20px;
-      color: red;
-    }
-    .mensagem-flutuante {
-      background: rgba(0,0,0,0.9);
-      color: white;
-      padding: 20px;
-      border: 2px solid red;
-      border-radius: 12px;
-      position: fixed;
-      top: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      z-index: 1000;
+
+    #comment-section {
+      padding: 2rem;
     }
   </style>
 </head>
+
 <body>
-  <audio autoplay loop>
-    <source src="musica.mp3" type="audio/mpeg" />
-    Seu navegador não suporta áudio.
-  </audio>
+  <div class="fog"></div>
 
-  <div class="mensagem-flutuante" id="msg">
-    <span class="fechar" onclick="document.getElementById('msg').style.display='none'">&times;</span>
-    Seja bem-vindo ao mundo sombrio de Roger Sombrio.
+  <header>
+    <h1>Roger Sombrio</h1>
+  </header>
+
+  <div class="welcome-box" id="welcomeBox">
+    Seja bem-vindo ao mundo sombrio de Roger Sombrio
+    <span class="close" onclick="document.getElementById('welcomeBox').style.display='none'">×</span>
   </div>
 
-  <h1>Roger Sombrio</h1>
+  <section class="section">
+    <h2>Meus Livros</h2>
+    <div class="books">
+      <div class="book">
+        <img src="https://m.media-amazon.com/images/I/81fWjNwXczL._SL1500_.jpg" alt="Livro 1">
+        <p>O Sussurro das Sombras</p>
+      </div>
+      <div class="book">
+        <img src="https://m.media-amazon.com/images/I/81Tkrk1L7pL._SL1500_.jpg" alt="Livro 2">
+        <p>O Abismo do Medo</p>
+      </div>
+    </div>
+  </section>
 
-  <div id="login-msg">
-    <button onclick="loginComGoogle()">Entrar com Google</button>
-  </div>
+  <section class="section" id="comment-section">
+    <h2>Comentários</h2>
+    <button id="login-btn">Entrar com Google</button>
+    <div id="comments"></div>
+  </section>
 
-  <div id="novo-comentario">
-    <textarea id="comentario-texto" rows="3" cols="30" placeholder="Escreva um comentário..."></textarea><br />
-    <button onclick="enviarComentario()">Enviar</button>
-  </div>
-
-  <h2>Comentários</h2>
-  <div id="comentarios-list"></div>
+  <script>
+    // Música de fundo
+    const audio = new Audio('https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3');
+    audio.loop = true;
+    audio.volume = 0.2;
+    window.addEventListener('load', () => {
+      audio.play().catch(() => console.log("Reprodução automática bloqueada."));
+    });
+  </script>
 </body>
+
 </html>
