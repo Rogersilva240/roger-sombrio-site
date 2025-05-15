@@ -14,6 +14,18 @@
       overflow-x: hidden;
     }
 
+    .fog {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url('https://img.freepik.com/vetores-gratis/nevoa-fumaca-nuvens-brancas-de-smog-no-chao-neblina_107791-14683.jpg') repeat;
+      background-size: cover;
+      opacity: 0.05;
+      z-index: -1;
+    }
+
     header {
       text-align: center;
       padding: 2rem;
@@ -76,6 +88,7 @@
     }
   </style>
   <script type="module">
+    // Firebase
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
     import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
     import { getFirestore, collection, addDoc, query, orderBy, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
@@ -93,58 +106,58 @@
     const auth = getAuth(app);
     const db = getFirestore(app);
 
-    window.addEventListener('DOMContentLoaded', () => {
-      const loginBtn = document.getElementById('loginBtn');
-      const commentForm = document.getElementById('commentForm');
-      const commentList = document.getElementById('commentList');
+    const loginBtn = document.getElementById('loginBtn');
+    const commentForm = document.getElementById('commentForm');
+    const commentList = document.getElementById('commentList');
 
-      loginBtn.addEventListener('click', async () => {
-        const provider = new GoogleAuthProvider();
-        await signInWithPopup(auth, provider);
-      });
+    loginBtn.addEventListener('click', async () => {
+      const provider = new GoogleAuthProvider();
+      await signInWithPopup(auth, provider);
+    });
 
-      onAuthStateChanged(auth, user => {
-        if (user) {
-          commentForm.style.display = 'block';
-          loginBtn.style.display = 'none';
-        }
-      });
+    onAuthStateChanged(auth, user => {
+      if (user) {
+        commentForm.style.display = 'block';
+        loginBtn.style.display = 'none';
+      }
+    });
 
-      commentForm.addEventListener('submit', async e => {
-        e.preventDefault();
-        const text = document.getElementById('commentText').value;
-        if (text.trim()) {
-          await addDoc(collection(db, 'comentarios'), {
-            nome: auth.currentUser.displayName,
-            texto: text,
-            data: new Date()
-          });
-          commentForm.reset();
-        }
-      });
-
-      const q = query(collection(db, 'comentarios'), orderBy('data', 'desc'));
-      onSnapshot(q, snapshot => {
-        commentList.innerHTML = '';
-        snapshot.forEach(doc => {
-          const data = doc.data();
-          const item = document.createElement('p');
-          item.textContent = `${data.nome}: ${data.texto}`;
-          commentList.appendChild(item);
+    commentForm.addEventListener('submit', async e => {
+      e.preventDefault();
+      const text = document.getElementById('commentText').value;
+      if (text.trim()) {
+        await addDoc(collection(db, 'comentarios'), {
+          nome: auth.currentUser.displayName,
+          texto: text,
+          data: new Date()
         });
+        commentForm.reset();
+      }
+    });
+
+    const q = query(collection(db, 'comentarios'), orderBy('data', 'desc'));
+    onSnapshot(q, snapshot => {
+      commentList.innerHTML = '';
+      snapshot.forEach(doc => {
+        const data = doc.data();
+        const item = document.createElement('p');
+        item.textContent = ${data.nome}: ${data.texto};
+        commentList.appendChild(item);
       });
     });
   </script>
 </head>
 
 <body>
+  <div class="fog"></div>
+
   <header>
     <h1>Roger Sombrio</h1>
   </header>
 
   <div class="floating-message" id="floatingMessage">
     Seja bem-vindo ao mundo sombrio de Roger Sombrio.
-    <button class="close-btn" onclick="document.getElementById('floatingMessage').style.display='none'">&times;</button>
+    <button class="close-btn" onclick="document.getElementById('floatingMessage').style.display='none'">✖</button>
   </div>
 
   <audio autoplay loop>
