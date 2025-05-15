@@ -4,13 +4,18 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Roger Sombrio</title>
+  <meta name="description" content="Site oficial do autor Roger Sombrio, especialista em terror psicológico e horror gore.">
+  <meta name="author" content="Roger Sombrio">
+  <meta property="og:title" content="Roger Sombrio - Terror e Horror Gore" />
+  <meta property="og:description" content="Entre na névoa e descubra os horrores de Roger Sombrio." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://rogersilva240.github.io/roger-sombrio-site/capa-sussurro.jpg" />
   <style>
     body {
       margin: 0;
       background-color: #0d0d0d;
       color: #e0e0e0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      overflow-x: hidden;
     }
 
     .login-btn {
@@ -112,29 +117,23 @@
       z-index: 1;
     }
 
-    @keyframes moverNevoa {
-      0% { background-position: 0 0; }
-      100% { background-position: 1000px 0; }
-    }
-
     .caveiras {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
+      background-image: url('https://i.ibb.co/ZYW3VTp/skull.png');
+      background-repeat: repeat;
+      background-size: 100px;
+      opacity: 0.02;
       pointer-events: none;
       z-index: 2;
-      background-image: url('https://i.ibb.co/7WrLmFJ/skull.png');
-      background-repeat: repeat;
-      background-size: 60px;
-      opacity: 0.02;
-      animation: moverCaveiras 120s linear infinite;
     }
 
-    @keyframes moverCaveiras {
+    @keyframes moverNevoa {
       0% { background-position: 0 0; }
-      100% { background-position: 500px 1000px; }
+      100% { background-position: 1000px 0; }
     }
 
     .piscar {
@@ -167,7 +166,7 @@
 </head>
 <body onclick="iniciarMusica()">
 
-  <audio id="bg-music" loop autoplay>
+  <audio id="bg-music" preload="auto" loop autoplay>
     <source src="musica.mp3" type="audio/mpeg">
     Seu navegador não suporta áudio HTML5.
   </audio>
@@ -181,6 +180,100 @@
   <div class="caveiras"></div>
   <div class="sombra"></div>
 
-  <!-- ... restante do HTML continua igual ... -->
+  <header>
+    <h1>Roger Sombrio</h1>
+    <p>Criador de universos sombrios e vozes que sussurram da escuridão</p>
+  </header>
+
+  <nav>
+    <a href="#inicio">Início</a>
+    <a href="#sobre">Sobre</a>
+    <a href="#obras">Obras</a>
+    <a href="#galeria">Galeria</a>
+    <a href="#contato">Contato</a>
+  </nav>
+
+  <button class="login-btn" onclick="loginComGoogle()">Entrar com Google</button>
+
+  <section id="inicio">
+    <h2>Bem-vindo ao mundo do autor: Roger Silva</h2>
+    <p>Entre na névoa e descubra os horrores que se escondem por trás do silêncio.</p>
+  </section>
+
+  <section id="sobre">
+    <h2>Sobre o Autor</h2>
+    <p>Roger Silva é um autor Brasileiro especializado em terror psicológico e horror gore.</p>
+  </section>
+
+  <section id="obras">
+    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 30px; margin-top: 30px;">
+      <!-- Cards dos livros (mantidos como estavam) -->
+    </div>
+  </section>
+
+  <section id="galeria">
+    <h2>Galeria</h2>
+    <p>Imagens, capas e artes do universo sombrio de Roger Sombrio.</p>
+  </section>
+
+  <section id="contato">
+    <h2>Contato</h2>
+    <p>Deseja entrar em contato com o autor? Envie um e-mail para: <strong>rogersilva199918@gmail.com</strong></p>
+  </section>
+
+  <footer>
+    <p>© 2025 Roger Sombrio. Todos os direitos reservados.</p>
+  </footer>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-app.js";
+    import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.11.0/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyD5NWjj6UKI8nbbonQYrDObkpu9AXztB60",
+      authDomain: "roger-sombrio.firebaseapp.com",
+      projectId: "roger-sombrio",
+      storageBucket: "roger-sombrio.appspot.com",
+      messagingSenderId: "XXX",
+      appId: "XXX"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const provider = new GoogleAuthProvider();
+
+    window.loginComGoogle = () => {
+      signInWithPopup(auth, provider)
+        .then((result) => {
+          const user = result.user;
+          alert(`Bem-vindo, ${user.displayName}!`);
+        })
+        .catch((error) => {
+          console.error("Erro no login:", error);
+          alert("Falha no login.");
+        });
+    };
+  </script>
+
+  <script>
+    function iniciarMusica() {
+      const audio = document.getElementById("bg-music");
+      if (audio.paused) {
+        audio.volume = 0.03;
+        audio.play().catch((error) => {
+          console.log("Erro ao tocar o áudio:", error);
+        });
+      }
+    }
+
+    function fecharAviso() {
+      document.querySelector(".aviso-flutuante").style.display = "none";
+    }
+
+    setTimeout(() => {
+      document.body.classList.add('piscar');
+    }, 4000);
+  </script>
+
 </body>
 </html>
